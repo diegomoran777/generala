@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class JugadaGenerala implements Jugada {
 
+	
 	public JugadaGenerala() {
 		
 	}

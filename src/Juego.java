@@ -11,7 +11,7 @@ public class Juego  {
 	
 	public Juego()
 	{
-		setInputPrincipal(inputPrincipal);
+		setInputPrincipal(0);
 		setListaJugadores(new ArrayList<>());
 	}
 	

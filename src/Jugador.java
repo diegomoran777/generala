@@ -25,9 +25,9 @@ public class Jugador {
 		tablaResults.put("2",null);
 		tablaResults.put("1",null);
 		setNombre(nombre);
-		setListaDados(listaDados);
-		setSeparados(separados);
-		setTablaResults(tablaResults);
+		setListaDados(new ArrayList<Integer>());
+		setSeparados(new ArrayList<Integer>());
+		setTablaResults(new TreeMap<String, Integer>());
 		
 	}
 	

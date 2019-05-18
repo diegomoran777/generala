@@ -11,6 +11,7 @@ public class Jugador {
 	private ArrayList<Integer> separados;
 	private Map<String,Integer> tablaResults= new TreeMap<String,Integer>();
 	private ArrayList<Integer> listaDados;
+	private ArrayList<Integer> separadosPrevio;
 	
 	public Jugador(String nombre) {
 		
@@ -28,7 +29,27 @@ public class Jugador {
 		setListaDados(new ArrayList<Integer>());
 		setSeparados(new ArrayList<Integer>());
 		setTablaResults(new TreeMap<String, Integer>());
+		setSeparadosPrevio(new ArrayList<Integer>());
 		
+	}
+	
+	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
+	{
+		if(separadosPrevio.contains(input))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void devolverAListaDeDados(int input)
+	{
+		int posicion= getSeparadosPrevio().indexOf(input);
+		getSeparadosPrevio().remove(posicion);
+		agregarDado(input);
 	}
 	
 	public boolean separarDados(ArrayList<Integer>listaDeDados, int input)
@@ -43,13 +64,24 @@ public class Jugador {
 		}
 	}
 	
-	public void agregarSeparado(int input)
+	public void agregarSeparadoPrevio(int input)
 	{
 		int posicion= getListaDados().indexOf(input);
 		getListaDados().remove(posicion);
-		getSeparados().add(input);
+		getSeparadosPrevio().add(input);
 	}
-	
+	public String menuRecuperarDados()
+	{
+		int num=0;
+		String menu="";
+		for(int i=0;i<getSeparadosPrevio().size();i++)
+		{
+			    num++;
+			    menu= menu+ "Dado: "+ num + " valor: "+ getSeparadosPrevio().get(i).toString()+"\n";
+		}
+		return menu;
+		//input
+	}
 	public String menuSepararDados()
 	{
 		int num=0;
@@ -72,6 +104,16 @@ public class Jugador {
 	public void borrarListaDados()
 	{
 		getListaDados().clear();
+	}
+	
+	public void borrarListaseparados()
+	{
+		getSeparados().clear();
+	}
+	
+	public void borrarListaSeparadosPrevio()
+	{
+		getSeparadosPrevio().clear();
 	}
 	
 	public void TirarDados() 
@@ -157,6 +199,15 @@ public class Jugador {
 	public void setListaDados(ArrayList<Integer> listaDados2) {
 		this.listaDados = listaDados2;
 	}
+
+	public ArrayList<Integer> getSeparadosPrevio() {
+		return separadosPrevio;
+	}
+
+	public void setSeparadosPrevio(ArrayList<Integer> separadosPrevio) {
+		this.separadosPrevio = separadosPrevio;
+	}
+	
 	
 	
 	

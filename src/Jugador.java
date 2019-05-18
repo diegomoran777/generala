@@ -12,6 +12,7 @@ public class Jugador {
 	private Map<String,Integer> tablaResults= new TreeMap<String,Integer>();
 	private ArrayList<Integer> listaDados;
 	private ArrayList<Integer> separadosPrevio;
+	private static final int puntosTachar=0;
 	
 	public Jugador(String nombre) {
 		
@@ -155,9 +156,18 @@ public class Jugador {
 		 }
 	}
 	
+	public boolean existeJugada(String input)
+	{
+		if(getTablaResults().containsKey(input.toLowerCase()))
+		{
+			return true;
+		}
+		    return false;
+	}
+	
 	public boolean  anotarResultado(String nombreJugada , int puntos)  throws jugadaAnotada
 	{
-		if(availableplay(nombreJugada))
+		if(availableplay(nombreJugada.toLowerCase()))
 		{
 			getTablaResults().put(nombreJugada, puntos);
 			return true;
@@ -167,6 +177,7 @@ public class Jugador {
 			throw new jugadaAnotada("La jugada ya esta anotada");
 		}
 	}
+	
 
 	public String getNombre() {
 		return nombre;

@@ -8,11 +8,14 @@ public class Juego  {
 
 	private ArrayList<Jugador> listaJugadores;
 	private int inputPrincipal;
+	private ArrayList<Jugada> jugadas;
 	
 	public Juego()
 	{
 		setInputPrincipal(0);
 		setListaJugadores(new ArrayList<>());
+		setJugadas(new ArrayList<Jugada>());
+		
 	}
 	
 	
@@ -34,52 +37,98 @@ public class Juego  {
 		}
 	}
 	
-	public void menuPrincipal()
-	{
-		int input= Integer.parseInt(JOptionPane.showInputDialog("1-SEPARAR:"
-                +"\n"+ //reverse? 
-                "2- SUMAR"+"\n"+
-                "3-TACHAR"+"\n"+
-                "4-SALIR"));
-		setInputPrincipal(input);
-	}
 	
 	public void menuSeparar(Jugador j)
 	{
-		int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES"+ "\n" + j.menuSepararDados()+ "\n" + "salir=0"));
-		if(input==0)
+		if(j.getListaDados().size()==0)
 		{
-			//break sale del menu y pasa de vuelta
+			JOptionPane.showMessageDialog(null, "SE HAN SEPARADO TODOS LOS DADOS, REINCORPORE DADOS O SALGA DEL MENU PRINCIPAL PARA CONTINUAR");
 		}
 		else
 		{
-			if(j.separarDados(j.getListaDados(),input) && j.getSeparados().size()<=4)
+		int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SEPARAR:"+ "\n" + j.menuSepararDados()+ "\n" + "salir= 0"));
+		if(input==0)
+		{
+			JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
+		}
+		else
+		{
+			if(j.separarDados(j.getListaDados(),input))
 			{
-				j.agregarSeparado(input);
+				j.agregarSeparadoPrevio(input);
 				menuSeparar(j);
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Valor inexistente o ya no puede separar mas valores, vuelva a inbtentar o elija salir para continuar");
+				JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
 				menuSeparar(j);
-			}
-			
+			}	
 		}
+	    }
 	}
+	
+	public void menuRecuperar(Jugador j)
+	{
+		if(j.getSeparadosPrevio().size()==0)
+		{
+			JOptionPane.showMessageDialog(null, "SE HAN RECUPERADO TODOS LOS DADOS");
+		}
+		else
+		{
+		int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A REINCORPORAR:"+ "\n" + j.menuRecuperarDados()+ "\n" + "salir= 0"));
+		if(input==0)
+		{
+			JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
+		}
+		else
+		{
+			if(j.recuperarDados(j.getSeparadosPrevio(), input))
+			{
+				j.agregarDado(input);
+				menuRecuperar(j);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
+				menuRecuperar(j);
+			}	
+		}
+	    }
+	}
+	
+	public void menuPrincipal()
+	{
+		int input= Integer.parseInt(JOptionPane.showInputDialog("1-SEPARAR:"
+                +"\n"+ //reverse?
+                "2-REINCORPORAR"+"\n"+
+                "3-SUMAR"+"\n"+
+                "4-TACHAR"+"\n"+
+                "5-SAVE"+"\n"+
+                "6-LOAD"+"\n"+
+                "0-SALIR O CONTINUAR"));
+		setInputPrincipal(input);
+	}
+	
 	
 	public void seleccionarMenu(Jugador j)
 	{
 		switch(getInputPrincipal()) {
   	  case 1: //separar
   	    menuSeparar(j);
+  	    menuPrincipal();
   	    //testear si encuentra jugada
   	    break;
   	  case 2:
-  	    //sumar
+  	    menuRecuperar(j);
+  	    menuPrincipal();
   	    break;
   	  case 3:
-    	// tachar
-    	break;  
+    	
+    	break;
+      case 0:
+    	j.getSeparados().addAll(j.getSeparadosPrevio());
+    	j.borrarListaSeparadosPrevio();
+    	break;	
   	  default:
   		  JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
   		  menuPrincipal();
@@ -101,6 +150,7 @@ public class Juego  {
 			for(Jugador jugador:getListaJugadores())
 			{
 					int vueltaXJugador=1;
+					jugador.borrarListaseparados();
 				    while(vueltaXJugador<=3)
 				    {
 				    	jugador.TirarDados();
@@ -130,6 +180,18 @@ public class Juego  {
 	public void setInputPrincipal(int inputPrincipal) {
 		this.inputPrincipal = inputPrincipal;
 	}
+
+
+	public ArrayList<Jugada> getJugadas() {
+		return jugadas;
+	}
+
+
+	public void setJugadas(ArrayList<Jugada> jugadas) {
+		this.jugadas = jugadas;
+	}
+	
+	
 
 	
 	

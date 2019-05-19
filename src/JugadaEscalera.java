@@ -42,22 +42,22 @@ public class JugadaEscalera implements Jugada
     {
         //sort del array de dados
         Collections.sort(dados);
-        
+        boolean escalera=false;
         for(int i = 1; i<dados.size(); i++)
         {
-            if(dados.get(i) - dados.get(i-1)==1)
+            if(dados.get(i) - dados.get(i-1)!=1)
             {
                 return false;
             }
-            if(dados.get(0)==1)
-            {   //escalera menor
-                return true;
-            }else{
-                //escalera mayor
-                return true;
-            }
         }
-        return false;
+        if(dados.get(0)==1)
+        {   //escalera menor
+            return true;
+        }else{
+            //escalera mayor
+            return true;
+        }
+        
     }
     
 }

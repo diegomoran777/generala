@@ -12,20 +12,18 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ArrayList<Integer> lista=new ArrayList<Integer>();
+		ArrayList<Integer> dados=new ArrayList<Integer>();
 		
-		lista.add(1);
-		lista.add(3);
-		lista.add(5);
-		lista.add(4);
-		lista.add(2);
+		dados.add(6);
+		dados.add(5);
+		dados.add(4);
+		dados.add(3);
+		dados.add(2);
 	
-		Collections.sort(lista);
-		for (int i = 1; i < lista.size(); i++) {
-			
-			System.out.println(i);
-		}
 		
-System.out.println(lista.size());
+		JugadaEscalera esc = new JugadaEscalera();
+		
+		System.out.println(esc.encontrada(dados));
+	        
 }
 }

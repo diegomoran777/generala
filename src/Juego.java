@@ -1,3 +1,4 @@
+import java.awt.HeadlessException;
 import java.io.ObjectInputStream.GetField;
 import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ public class Juego  {
 
 	private ArrayList<Jugador> listaJugadores;
 	private int inputPrincipal;
+	int vueltaXJugador;
 	private ArrayList<Jugada> jugadas;
 	
 	public Juego()
@@ -15,6 +17,7 @@ public class Juego  {
 		setInputPrincipal(0);
 		setListaJugadores(new ArrayList<>());
 		setJugadas(new ArrayList<Jugada>());
+		setVueltaXJugador(1);
 		
 	}
 	
@@ -37,6 +40,33 @@ public class Juego  {
 		}
 	}
 	
+	public boolean tacharJugada(Jugador j) throws ExceptionjugadaAnotada
+	{
+		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
+		if(j.anotarResultado(input, Jugador.getPuntostachar()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+    public void menuTachar(Jugador j) throws ExceptionjugadaAnotada 
+    {
+			if(tacharJugada(j))
+			{
+				JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+				setVueltaXJugador(4);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
+				menuPrincipal();
+				seleccionarMenu(j);
+			}
+    }
 	
 	public void menuSeparar(Jugador j)
 	{
@@ -110,7 +140,7 @@ public class Juego  {
 	}
 	
 	
-	public void seleccionarMenu(Jugador j)
+	public void seleccionarMenu(Jugador j) throws ExceptionjugadaAnotada
 	{
 		switch(getInputPrincipal()) {
   	  case 1: //separar
@@ -125,6 +155,9 @@ public class Juego  {
   	  case 3:
     	
     	break;
+      case 4:
+    	menuTachar(j);
+    	break;
       case 0:
     	j.getSeparados().addAll(j.getSeparadosPrevio());
     	j.borrarListaSeparadosPrevio();
@@ -135,7 +168,7 @@ public class Juego  {
   		  seleccionarMenu(j);
 		}
 	}
-    public void Jugar()
+    public void Jugar() throws ExceptionjugadaAnotada
     {
     	try {
 			cargarCantidadJugadores();
@@ -149,19 +182,32 @@ public class Juego  {
 		{
 			for(Jugador jugador:getListaJugadores())
 			{
-					int vueltaXJugador=1;
-					jugador.borrarListaseparados();
-				    while(vueltaXJugador<=3)
+				setVueltaXJugador(1);
+				jugador.borrarListaseparados();
+				while(getVueltaXJugador()<=3)
 				    {
 				    	jugador.TirarDados();
 				    	//ver si encuentra una jugada sino
 				    	menuPrincipal();
 				    	seleccionarMenu(jugador);
+				    	
+				    	
+				    	if(getVueltaXJugador()==3)
+				    	{
+				    		if(tacharJugada(jugador))
+				    		{
+				    			JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+				    		}
+				    		else
+				    		{
+				    			tacharJugada(jugador);
+				    		}
 				    	}
-				    
-				    }			
-             }
-		}		
+				    	setVueltaXJugador(getVueltaXJugador()+1);
+				    }
+			}			
+         }
+    }		
     
 	public ArrayList<Jugador> getListaJugadores() {
 		return listaJugadores;
@@ -190,6 +236,17 @@ public class Juego  {
 	public void setJugadas(ArrayList<Jugada> jugadas) {
 		this.jugadas = jugadas;
 	}
+
+
+	public int getVueltaXJugador() {
+		return vueltaXJugador;
+	}
+
+
+	public void setVueltaXJugador(int vueltaXJugador) {
+		this.vueltaXJugador = vueltaXJugador;
+	}
+	
 	
 	
 

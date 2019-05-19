@@ -165,17 +165,17 @@ public class Jugador {
 		    return false;
 	}
 	
-	public boolean  anotarResultado(String nombreJugada , int puntos)  throws jugadaAnotada
+	public boolean  anotarResultado(String nombreJugada , int puntos)  throws ExceptionjugadaAnotada
 	{
-		if(availableplay(nombreJugada.toLowerCase()))
-		{
-			getTablaResults().put(nombreJugada, puntos);
-			return true;
-		}
-		else
-		{
-			throw new jugadaAnotada("La jugada ya esta anotada");
-		}
+			if(availableplay(nombreJugada.toLowerCase())&& existeJugada(nombreJugada))
+			{
+				getTablaResults().put(nombreJugada, puntos);
+				return true;
+			}
+			else
+			{
+				throw new ExceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
+			}	
 	}
 	
 
@@ -218,6 +218,12 @@ public class Jugador {
 	public void setSeparadosPrevio(ArrayList<Integer> separadosPrevio) {
 		this.separadosPrevio = separadosPrevio;
 	}
+
+	public static int getPuntostachar() {
+		return puntosTachar;
+	}
+	
+	
 	
 	
 	

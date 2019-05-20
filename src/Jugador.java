@@ -117,6 +117,25 @@ public class Jugador {
 		getSeparadosPrevio().clear();
 	}
 	
+	public void reverse()
+	{
+		ArrayList<Integer>lista=new ArrayList<Integer>();
+		for (int i = 0; i < getListaDados().size(); i++) 
+		{
+			lista.add(7-getListaDados().get(i));
+		}
+			
+		getListaDados().clear();
+		getListaDados().addAll(lista);
+		lista.clear();
+		int dado=0;
+		for(int i=0;i<getListaDados().size();i++)
+		{
+			dado++;
+			System.out.println("Reverse"+"Dado: " + dado + " valor " + getListaDados().get(i));
+		}
+	}
+	
 	public void TirarDados() 
 	{
 		int[ ] lista = {(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1) ,(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1)};  

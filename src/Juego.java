@@ -67,6 +67,29 @@ public class Juego  {
 				seleccionarMenu(j);
 			}
     }
+    
+    public void menuReverse(Jugador j)
+    {
+    	int input=Integer.parseInt(JOptionPane.showInputDialog("QUIERE USAR EL VALOR DE LA CARA OPUESTA DE LOS DADOS?:"
+                +"\n"+"1-SI:"
+                +"\n"+"2-NO:" ));
+    	if(input==1)
+    	{
+    		j.reverse();
+    	}
+    	else
+    	{
+    		if(input==2)
+    		{
+    			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
+    		}
+    		else
+    		{
+    			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+    			menuReverse(j);
+    		}
+    	}
+    }
 	
 	public void menuSeparar(Jugador j)
 	{
@@ -129,7 +152,7 @@ public class Juego  {
 	public void menuPrincipal()
 	{
 		int input= Integer.parseInt(JOptionPane.showInputDialog("1-SEPARAR:"
-                +"\n"+ //reverse?
+                +"\n"+ 
                 "2-REINCORPORAR"+"\n"+
                 "3-SUMAR"+"\n"+
                 "4-TACHAR"+"\n"+
@@ -187,6 +210,7 @@ public class Juego  {
 				while(getVueltaXJugador()<=3)
 				    {
 				    	jugador.TirarDados();
+				    	menuReverse(jugador);
 				    	//ver si encuentra una jugada sino
 				    	menuPrincipal();
 				    	seleccionarMenu(jugador);

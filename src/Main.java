@@ -1,11 +1,14 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.text.html.HTMLDocument.Iterator;
@@ -16,12 +19,36 @@ public class Main {
 		
 		ArrayList<Integer> dados=new ArrayList<Integer>();
 		
-		dados.add(5);
-		dados.add(5);
-		dados.add(5);
-		dados.add(5);
-		dados.add(1);
-	
+		
+		dados.add(6);
+		dados.add(6);
+		dados.add(6);
+		dados.add(6);
+		dados.add(6);
+		
+		
+	Set<Integer> repetido = new HashSet<>(); 
+    for (int i = 0; i < dados.size(); i++) {
+       repetido.add(dados.get(i));
+       int freq=Collections.frequency(dados, dados.get(i));
+       
+       if(freq==4)
+       {
+    	   System.out.println("false");
+       }
+	}
+    
+    if(repetido.size()!=2){
+       System.out.println("false");
+    }
+    
+    System.out.println("true");
+    
+
+
+
+				
+	/*
 	int cont2=0;
 		for (int i = 1; i <= 6; i++) 
 		{   int cont=0;
@@ -46,7 +73,7 @@ public class Main {
 		else {
 			System.out.println("false");
 		}
-		
+		*/
 		
 		
 		

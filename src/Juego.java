@@ -175,11 +175,13 @@ public class Juego  {
   	  case 1: //separar
   	    menuSeparar(j);
   	    menuPrincipal();
+  	    seleccionarMenu(j);
   	    //testear si encuentra jugada
   	    break;
   	  case 2:
   	    menuRecuperar(j);
   	    menuPrincipal();
+  	    seleccionarMenu(j);
   	    break;
   	  case 3:
     	

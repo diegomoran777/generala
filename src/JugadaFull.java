@@ -29,7 +29,7 @@ public class JugadaFull implements Jugada
 	public int puntos() 
         {
 		
-		return 20;
+		return 30;
 	}
         
 
@@ -50,20 +50,14 @@ public class JugadaFull implements Jugada
                           return false;
                       }
                   }
-                  /*/Para que haya Full debe haber 1 n repetido 3 veces y otro n repetido 2 veces
-                     por lo tanto en el Set repetido solo deberia haber 2 numeros/*/
+                  /*Para que haya Full debe haber 1 n repetido 3 veces y otro n repetido 2 veces
+                     por lo tanto en el Set repetido solo deberia haber 2 numeros*/
                   if(repetido.size()!=2){
                       //Si hay más de dos numeros almacenados, no hay Full, caso contrario, devuelve true
                       return false;
-                  }
+                  
+                  //Si hay mass de dos numeros almacenados, no hay Full, caso contrario, devuelve trueffcfc======
         return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+        
 }

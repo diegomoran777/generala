@@ -58,7 +58,7 @@ jugadas.add(new JugadaFull());
 
 for(int i = 0; i < jugadas.size(); i++)
 {
-    if(jugadas.get(i).encontrada(dados)) // se asume que dados es un array con números
+    if(jugadas.get(i).encontrada(dados)) 
     {
         // Por ejemplo:
         System.out.println("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre());

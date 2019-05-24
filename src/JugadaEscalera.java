@@ -18,6 +18,7 @@ public class JugadaEscalera implements Jugada
 
     public JugadaEscalera() 
     {
+    	
     }
     
     

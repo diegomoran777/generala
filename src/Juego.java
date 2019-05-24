@@ -14,12 +14,22 @@ public class Juego  {
 	
 	public Juego()
 	{
+		jugadas=new ArrayList<Jugada>();
+		jugadas.add(new JugadaGenerala());
+		jugadas.add(new JugadaPoker());
+		jugadas.add(new JugadaFull());
+		jugadas.add(new JugadaEscalera());
+		
 		setInputPrincipal(0);
 		setListaJugadores(new ArrayList<>());
-		setJugadas(new ArrayList<Jugada>());
+		setJugadas(jugadas);
 		setVueltaXJugador(1);
 		
 	}
+	
+	
+	
+	
 	
 	
 	public void cargarCantidadJugadores() throws exceptionCantidadPlayers
@@ -191,6 +201,11 @@ public class Juego  {
   		  seleccionarMenu(j);
 		}
 	}
+	
+	public int inputJugada(int input)
+	{
+		return input;
+	}
     public void Jugar() throws ExceptionjugadaAnotada
     {
     	try {
@@ -211,10 +226,12 @@ public class Juego  {
 				    {
 				    	jugador.TirarDados();
 				    	menuReverse(jugador);
-				    	//ver si encuentra una jugada sino
-				    	menuPrincipal();
-				    	seleccionarMenu(jugador);
-				    	
+				        
+				    	if(jugadaInput(jugador)!=true)
+				    	{
+				    		menuPrincipal();
+					    	seleccionarMenu(jugador);
+				    	}
 				    	
 				    	if(getVueltaXJugador()==3)
 				    	{
@@ -232,6 +249,50 @@ public class Juego  {
 			}			
          }
     }		
+    
+    public boolean jugadaInput(Jugador j) throws  ExceptionjugadaAnotada
+    {
+    	boolean bool=false;
+    	int input=0;
+    	for(int i = 0; i < jugadas.size(); i++)
+    	{
+    	    if(jugadas.get(i).encontrada(j.getListaDados())) 
+    	    {
+    	    	 input= Integer.parseInt(JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre()+" Desea anotar? "
+    	                +"\n"+"1-ANOTAR"
+    	                +"\n"+"2-SALIR"));
+    	    	 if(input==1)
+    	     	{
+    	     		if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
+    	     		{
+    	     			JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
+    	     			setVueltaXJugador(4);
+    	     			bool= true;
+    	     		}
+    	     		else
+    	     		{
+    	     			bool= false;
+    	     		}
+    	     		
+    	     	}
+    	    	 else
+    	    	 {
+    	    		 if(input==2)
+    	    		 {
+    	    			 bool= false;
+    	    		 }
+    	    		 else
+    	    		 {
+    	    			 JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+    	    			 jugadaInput(j);
+    	    		 }
+    	    	 }
+    	    	 
+    	    }
+    	   
+    	}
+		return bool;
+    }
     
 	public ArrayList<Jugador> getListaJugadores() {
 		return listaJugadores;

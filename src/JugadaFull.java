@@ -39,7 +39,7 @@ public class JugadaFull implements Jugada
         //En el set se guardan los numeros sin repetirse:
         Set<Integer> repetido = new HashSet<>();
 
-        repetido.clear();
+        
          for (int i = 0; i < dados.size(); i++)
           {
             repetido.add(i);

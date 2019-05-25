@@ -28,7 +28,7 @@ public class Juego  {
 	}
 	
 	
-	public void cargarCantidadJugadores() throws exceptionCantidadPlayers
+	public void cargarCantidadJugadores() throws ExceptionCantidadPlayers
 	{
 		int cantidad=Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores"));
 		        
@@ -42,11 +42,11 @@ public class Juego  {
 		}
 		else
 		{
-			throw new exceptionCantidadPlayers("Ingresar cantidad correcta de jugadores");
+			throw new ExceptionCantidadPlayers("Ingresar cantidad correcta de jugadores");
 		}
 	}
 	
-	public boolean tacharJugada(Jugador j) throws ExceptionjugadaAnotada
+	public boolean tacharJugada(Jugador j) throws ExceptionJugadaAnotada
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
 		if(j.anotarResultado(input, Jugador.getPuntostachar()))
@@ -59,7 +59,7 @@ public class Juego  {
 		}
 	}
 	
-    public void menuTachar(Jugador j) throws ExceptionjugadaAnotada 
+    public void menuTachar(Jugador j) throws ExceptionJugadaAnotada 
     {
 			if(tacharJugada(j))
 			{
@@ -169,7 +169,7 @@ public class Juego  {
 	}
 	
 	
-	public void seleccionarMenu(Jugador j) throws ExceptionjugadaAnotada
+	public void seleccionarMenu(Jugador j) throws ExceptionJugadaAnotada
 	{
 		switch(getInputPrincipal()) {
   	  case 1: //separar
@@ -204,11 +204,11 @@ public class Juego  {
 	{
 		return input;
 	}
-    public void Jugar() throws ExceptionjugadaAnotada
+    public void Jugar() throws ExceptionJugadaAnotada
     {
     	try {
 			cargarCantidadJugadores();
-		} catch (exceptionCantidadPlayers e) {
+		} catch (ExceptionCantidadPlayers e) {
 			
 			e.printStackTrace();
 		}
@@ -278,7 +278,7 @@ public class Juego  {
     	}
     	return bool;
     }
-    public boolean encontrarJugada(Jugador j) throws  ExceptionjugadaAnotada
+    public boolean encontrarJugada(Jugador j) throws  ExceptionJugadaAnotada
     {
     	boolean bool=false;
     	int input=0;

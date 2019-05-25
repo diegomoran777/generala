@@ -184,7 +184,7 @@ public class Jugador {
 		    return false;
 	}
 	
-	public boolean  anotarResultado(String nombreJugada , int puntos)  throws ExceptionjugadaAnotada
+	public boolean  anotarResultado(String nombreJugada , int puntos)  throws ExceptionJugadaAnotada
 	{
 			if(availableplay(nombreJugada.toLowerCase())&& existeJugada(nombreJugada))
 			{
@@ -193,7 +193,7 @@ public class Jugador {
 			}
 			else
 			{
-				throw new ExceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				throw new ExceptionJugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
 			}	
 	}
 	

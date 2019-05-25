@@ -59,25 +59,8 @@ public class JugadaFull implements Jugada
                 {
                   return false;
                 }
-          //Si hay mass de dos numeros almacenados, no hay Full, caso contrario, devuelve true
-
-        Set<Integer> repetido = new HashSet<>(); 
-
-        repetido.clear();
-                  for (int i = 0; i < dados.size(); i++)
-
-                  for (Integer i : dados)
-                  { 
-                      repetido.add(i);
-                  }
-                  /*Para que haya Full debe haber 1 n repetido 3 veces y otro n repetido 2 veces
-                     por lo tanto en el Set repetido solo deberia haber 2 numeros*/
-                  if(repetido.size()!=2){
-                      return false;
-                  }
-                  //Si hay mass de dos numeros almacenados, no hay Full, caso contrario, devuelve true
-
-        return true;
+     
+            //Si hay mass de dos numeros almacenados, no hay Full, caso contrario, devuelve true
+            return true;
     }
-        
 }

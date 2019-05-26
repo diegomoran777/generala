@@ -1,6 +1,6 @@
 
-public class ExceptionjugadaAnotada extends Exception {
-	public ExceptionjugadaAnotada(String msg) {
+public class exceptionjugadaAnotada extends Exception {
+	public exceptionjugadaAnotada(String msg) {
         super(msg);
     }
 }

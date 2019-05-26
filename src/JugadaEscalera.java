@@ -21,42 +21,38 @@ public class JugadaEscalera implements Jugada
     	
     }
     
-    
-    
     @Override
 	public String nombre() 
-        {
-		
-		return "escalera";
+    {
+    	return "escalera";
 	}
 
 	@Override
 	public int puntos() 
-        {
-		
+	{
 		return 20;
 	}
         
-
     @Override
     public boolean encontrada(ArrayList<Integer> dados) 
     {
         //sort del array de dados
         Collections.sort(dados);
         boolean escalera=false;
-        for(int i = 1; i<dados.size(); i++)
+        for(int i = 1; i < dados.size(); i++)
         {
-            if(dados.get(i) - dados.get(i-1)!=1)
+            if(dados.get(i) - dados.get(i-1) != 1)
             {
                 return false;
             }
         }
-        if(dados.get(0)==1)
+        if(dados.get(0) == 1)
         {   //escalera menor
             return true;
-        }else{
-            //escalera mayor
-            return true;
+        }
+        else
+        {   //escalera mayor
+        	return true;
         }
         
     }

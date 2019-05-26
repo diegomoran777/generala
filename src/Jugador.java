@@ -14,8 +14,8 @@ public class Jugador {
 	private ArrayList<Integer> separadosPrevio;
 	private static final int puntosTachar=0;
 	
-	public Jugador(String nombre) {
-		
+	public Jugador(String nombre)
+	{
 		tablaResults.put("generala",null);
 		tablaResults.put("poker",null);
 		tablaResults.put("full",null);
@@ -30,8 +30,7 @@ public class Jugador {
 		setListaDados(new ArrayList<Integer>());
 		setSeparados(new ArrayList<Integer>());
 		setTablaResults(new TreeMap<String, Integer>());
-		setSeparadosPrevio(new ArrayList<Integer>());
-		
+		setSeparadosPrevio(new ArrayList<Integer>());	
 	}
 	
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
@@ -71,29 +70,29 @@ public class Jugador {
 		getListaDados().remove(posicion);
 		getSeparadosPrevio().add(input);
 	}
+	
 	public String menuRecuperarDados()
 	{
 		int num=0;
 		String menu="";
-		for(int i=0;i<getSeparadosPrevio().size();i++)
+		for(int i=0; i < getSeparadosPrevio().size(); i++)
 		{
-			    num++;
-			    menu= menu+ "Dado: "+ num + " valor: "+ getSeparadosPrevio().get(i).toString()+"\n";
+			num++;
+			menu= menu + "Dado: " + num + " valor: " + getSeparadosPrevio().get(i).toString() + "\n";
 		}
 		return menu;
-		//input
 	}
+	
 	public String menuSepararDados()
 	{
 		int num=0;
 		String menu="";
-		for(int i=0;i<getListaDados().size();i++)
+		for(int i=0; i < getListaDados().size(); i++)
 		{
-			    num++;
-			    menu= menu+ "Dado: "+ num + " valor: "+ getListaDados().get(i).toString()+"\n";
+			num++;
+			menu= menu + "Dado: " + num + " valor: " + getListaDados().get(i).toString() + "\n";
 		}
 		return menu;
-		//input
 	}
 	
 	public void agregarDado(int dado)
@@ -128,20 +127,21 @@ public class Jugador {
 		getListaDados().clear();
 		getListaDados().addAll(lista);
 		lista.clear();
+		
 		int dado=0;
-		for(int i=0;i<getListaDados().size();i++)
+		for(int i = 0; i <getListaDados().size(); i++)
 		{
 			dado++;
-			System.out.println("Reverse"+"Dado: " + dado + " valor " + getListaDados().get(i));
+			System.out.println("Reverse" + "Dado: " + dado + " valor " + getListaDados().get(i));
 		}
 	}
 	
 	public void TirarDados() 
 	{
-		int[ ] lista = {(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1) ,(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1),(int) Math.floor(Math.random()*(6-1+1)+1)};  
+		int[ ] lista = {(int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1)};  
 		borrarListaDados();
 		int dado=0;
-		for(int i=0;i<lista.length-separados.size();i++)
+		for(int i=0; i <lista.length-separados.size(); i++)
 		{
 			dado++;
 			System.out.println("Dado: " + dado + " valor " + lista[i]);
@@ -153,19 +153,19 @@ public class Jugador {
 	public void imprimirTableResults()
 	{
 		 Set<Map.Entry<String,Integer>>
-		 
 		 lista=getTablaResults().entrySet();
 		 
-		 for (Map.Entry<String,Integer> e:lista) {
-			 System.out.println(e.getKey()+ " = " +e.getValue());
-			 }
+		 for (Map.Entry<String,Integer> e:lista) 
+		 {
+			 System.out.println(e.getKey() + " = " + e.getValue());
+		 }
 	
 	}
 	
 	public boolean availableplay(String nombreJugada) 
 	{
 		 Integer jugada= getTablaResults().get(nombreJugada);
-		 if(jugada==null)
+		 if(jugada == null)
 		 {
 			 return true;
 		 }
@@ -181,64 +181,75 @@ public class Jugador {
 		{
 			return true;
 		}
-		    return false;
+		return false;
 	}
 	
-	public boolean  anotarResultado(String nombreJugada , int puntos)  throws ExceptionjugadaAnotada
+	public boolean  anotarResultado(String nombreJugada , int puntos)  throws exceptionjugadaAnotada
 	{
-			if(availableplay(nombreJugada.toLowerCase())&& existeJugada(nombreJugada))
+			if(availableplay(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
 			{
 				getTablaResults().put(nombreJugada, puntos);
 				return true;
 			}
 			else
 			{
-				throw new ExceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				throw new exceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
 			}	
 	}
 	
 
-	public String getNombre() {
+	public String getNombre() 
+	{
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(String nombre)
+	{
 		this.nombre = nombre;
 	}
 
-	public ArrayList<Integer> getSeparados() {
+	public ArrayList<Integer> getSeparados()
+	{
 		return separados;
 	}
 
-	public void setSeparados(ArrayList<Integer> separados2) {
+	public void setSeparados(ArrayList<Integer> separados2)
+	{
 		this.separados = separados2;
 	}
 
-	public Map<String, Integer> getTablaResults() {
+	public Map<String, Integer> getTablaResults()
+	{
 		return tablaResults;
 	}
 
-	public void setTablaResults(Map<String, Integer> tablaResults) {
+	public void setTablaResults(Map<String, Integer> tablaResults)
+	{
 		this.tablaResults = tablaResults;
 	}
 
-	public ArrayList<Integer> getListaDados() {
+	public ArrayList<Integer> getListaDados() 
+	{
 		return listaDados;
 	}
 
-	public void setListaDados(ArrayList<Integer> listaDados2) {
+	public void setListaDados(ArrayList<Integer> listaDados2) 
+	{
 		this.listaDados = listaDados2;
 	}
 
-	public ArrayList<Integer> getSeparadosPrevio() {
+	public ArrayList<Integer> getSeparadosPrevio() 
+	{
 		return separadosPrevio;
 	}
 
-	public void setSeparadosPrevio(ArrayList<Integer> separadosPrevio) {
+	public void setSeparadosPrevio(ArrayList<Integer> separadosPrevio) 
+	{
 		this.separadosPrevio = separadosPrevio;
 	}
 
-	public static int getPuntostachar() {
+	public static int getPuntostachar() 
+	{
 		return puntosTachar;
 	}
 	

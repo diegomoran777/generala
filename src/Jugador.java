@@ -118,10 +118,11 @@ public class Jugador {
 	
 	public void reverse()
 	{
+		final int RESTA=7;
 		ArrayList<Integer>lista=new ArrayList<Integer>();
 		for (int i = 0; i < getListaDados().size(); i++) 
 		{
-			lista.add(7-getListaDados().get(i));
+			lista.add(RESTA-getListaDados().get(i));
 		}
 			
 		getListaDados().clear();
@@ -141,7 +142,7 @@ public class Jugador {
 		int[ ] lista = {(int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1)};  
 		borrarListaDados();
 		int dado=0;
-		for(int i=0; i <lista.length-separados.size(); i++)
+		for(int i=0; i < lista.length-separados.size(); i++)
 		{
 			dado++;
 			System.out.println("Dado: " + dado + " valor " + lista[i]);
@@ -157,9 +158,21 @@ public class Jugador {
 		 
 		 for (Map.Entry<String,Integer> e:lista) 
 		 {
-			 System.out.println(e.getKey() + " = " + e.getValue());
+			 System.out.println("TABLA:" + "\n" + getNombre() + "\n" + e.getKey() + " = " + e.getValue());
 		 }
 	
+	}
+	
+	public int sumarResultadosFinales()
+	{
+		Set<Map.Entry<String,Integer>>
+		lista=tablaResults.entrySet();
+		int value=0;
+		for (Map.Entry<String,Integer> e:lista) 
+		{
+			value+= e.getValue();	
+		}
+		return value;
 	}
 	
 	public boolean availableplay(String nombreJugada) 

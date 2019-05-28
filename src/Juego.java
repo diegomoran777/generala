@@ -171,7 +171,6 @@ public class Juego  {
 			menuSeparar(j);
 			menuPrincipal();
 			seleccionarMenu(j);
-  	        //testear si encuentra jugada..agarrar separardados<> y ver si es encontrada
 			break;
 	    case REINCORPORAR_DADO:
 			menuRecuperar(j);
@@ -188,11 +187,11 @@ public class Juego  {
       	
       	    break;
         case LOAD_JUEGO:
-        	menuTachar(j);
+        	
       	    break;	
         case SALIR:
-        	j.getSeparados().addAll(j.getSeparadosPrevio());
-        	j.borrarListaSeparadosPrevio();
+        	//j.getSeparados().addAll(j.getSeparadosPrevio());
+        	//j.borrarListaSeparadosPrevio();
     	    break;	
   	    default:
   		   JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
@@ -240,20 +239,24 @@ public class Juego  {
 							{
 								menuPrincipal();
 								seleccionarMenu(getListaJugadores().get(i));
+								getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
+					        	getListaJugadores().get(i).borrarListaSeparadosPrevio();
 							}
-							
-							if(getVueltaXJugador() == 3)
+							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
 							{
-								if(tacharJugada(getListaJugadores().get(i)))
+								if(getVueltaXJugador() == 3)
 								{
-									JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+									if(tacharJugada(getListaJugadores().get(i)))
+									{
+										JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+									}
+									else
+									{
+										tacharJugada(getListaJugadores().get(i));
+									}
 								}
-								else
-								{
-									tacharJugada(getListaJugadores().get(i));
-								}
+								    setVueltaXJugador(getVueltaXJugador()+1);
 							}
-							setVueltaXJugador(getVueltaXJugador()+1);
 						}
 				    }			
 			}       
@@ -328,6 +331,46 @@ public class Juego  {
     	   return bool;
     }
     
+    public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
+    {
+    	boolean bool=false;
+    	int input=0;
+    	for(int i = 0; i < jugadas.size(); i++)
+    	{   
+    	    if(jugadas.get(i).encontrada(j.getSeparados())) 
+    	    {
+    	    	input= Integer.parseInt(JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR"));
+    	    	if(input==1)
+    	    	{
+    	    		if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
+    	    		{
+    	    			JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
+    	     		    setVueltaXJugador(4);
+    	     			bool= true;
+    	     		}
+    	    		else
+    	    		{
+    	    			bool= false;
+    	     		} 	     		
+    	     	}
+    	    	else
+    	    	{
+    	    		if(input==2)
+    	    		{
+    	    			bool= false;
+    	    		}
+    	    		else
+    	    		{
+    	    			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+    	    			encontrarJugada(j);
+    	    		}
+    	    	}
+    	    	 
+    	    }
+    	}
+       return bool;
+    }
+    
 	public ArrayList<Jugador> getListaJugadores() 
 	{
 		return listaJugadores;
@@ -338,30 +381,25 @@ public class Juego  {
 		this.listaJugadores = listaJugadores;
 	}
 
-
 	public int getInputPrincipal() 
 	{
 		return inputPrincipal;
 	}
-
 
 	public void setInputPrincipal(int inputPrincipal) 
 	{
 		this.inputPrincipal = inputPrincipal;
 	}
 
-
 	public ArrayList<Jugada> getJugadas() 
 	{
 		return jugadas;
 	}
 
-
 	public void setJugadas(ArrayList<Jugada> jugadas) 
 	{
 		this.jugadas = jugadas;
 	}
-
 
 	public int getVueltaXJugador() 
 	{
@@ -372,12 +410,6 @@ public class Juego  {
 	{
 		this.vueltaXJugador = vueltaXJugador;
 	}
-	
-	
-	
-
-	
-	
 	
 	
 }

@@ -1,6 +1,7 @@
 import java.awt.HeadlessException;
 import java.io.ObjectInputStream.GetField;
 import java.lang.invoke.SwitchPoint;
+import java.time.Period;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -11,6 +12,10 @@ public class Juego  {
 	int vueltaXJugador;
 	private ArrayList<Jugador> listaJugadores;
 	private ArrayList<Jugada> jugadas;
+	private final int SALIR_WHILE_VUELTA=4;
+	private final int SALIR=0;
+	private final int LIMITE_VUELTAS_GENERALES=10;
+	private final int LIMITE_VUELTAS_JUGADOR=3;
 	
 	public Juego()
 	{
@@ -25,13 +30,14 @@ public class Juego  {
 		setVueltaXJugador(1);
 	}
 	
-	
 	public void cargarCantidadJugadores() throws exceptionCantidadPlayers
 	{
+		final int VALOR_LIMITE_MENOR=2;
+		final int VALOR_LIMITE_MAYOR=4;
 		int cantidad=Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores"));
-		if(cantidad>=2 || cantidad<=4)
+		if(cantidad>=VALOR_LIMITE_MENOR || cantidad<=VALOR_LIMITE_MAYOR)
 		{
-			for(int i=0;i<cantidad;i++)
+			for(int i=0; i < cantidad; i++)
 			{
 				String nombre= JOptionPane.showInputDialog("Ingrese el nombre");
 				getListaJugadores().add(new Jugador(nombre));
@@ -55,7 +61,7 @@ public class Juego  {
 			if(tacharJugada(j))
 			{
 				JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-				setVueltaXJugador(4);
+				setVueltaXJugador(SALIR_WHILE_VUELTA);
 			}
 			else
 			{
@@ -67,14 +73,16 @@ public class Juego  {
     
     public void menuReverse(Jugador j)
     {
+    	final int SI=1;
+    	final int NO=2;
     	int input=Integer.parseInt(JOptionPane.showInputDialog("QUIERE USAR EL VALOR DE LA CARA OPUESTA DE LOS DADOS?:" + "\n" + "1-SI:" + "\n" + "2-NO:" ));
-    	if(input==1)
+    	if(input==SI)
     	{
     		j.reverse();
     	}
     	else
     	{
-    		if(input==2)
+    		if(input==NO)
     		{
     			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
     		}
@@ -88,14 +96,14 @@ public class Juego  {
 	
 	public void menuSeparar(Jugador j)
 	{
-		if(j.getListaDados().size()==0)
+		if(j.getListaDados().size( )== 0)
 		{
 			JOptionPane.showMessageDialog(null, "SE HAN SEPARADO TODOS LOS DADOS, REINCORPORE DADOS O SALGA DEL MENU PRINCIPAL PARA CONTINUAR");
 		}
 		else
 		{
 			int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SEPARAR:"+ "\n" + j.menuSepararDados()+ "\n" + "salir= 0"));
-			if(input==0)
+			if(input==SALIR)
 			{
 				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
 			}
@@ -124,7 +132,7 @@ public class Juego  {
 		else
 		{
 			int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A REINCORPORAR:"+ "\n" + j.menuRecuperarDados()+ "\n" + "salir= 0"));
-			if(input==0)
+			if(input==SALIR)
 			{
 				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
 			}
@@ -153,6 +161,7 @@ public class Juego  {
                 "4-TACHAR" + "\n" +
                 "5-SAVE" + "\n" +
                 "6-LOAD" + "\n" +
+                "7-IMPRIMIR TABLA RESULTADOS" + "\n" +
                 "0-SALIR O CONTINUAR"));
 		setInputPrincipal(input);
 	}
@@ -165,7 +174,7 @@ public class Juego  {
 		final int TACHAR_JUGADA=4;
 		final int SAVE_JUEGO=5;
 		final int LOAD_JUEGO=6;
-		final int SALIR=0;
+		final int IMPRIMIR_TABLA_RESULTADOS=7;
 		switch(getInputPrincipal()) {
 		case SEPARAR_DADO: 
 			menuSeparar(j);
@@ -188,7 +197,12 @@ public class Juego  {
       	    break;
         case LOAD_JUEGO:
         	
-      	    break;	
+      	    break;
+        case IMPRIMIR_TABLA_RESULTADOS :
+        	j.imprimirTableResults();
+        	menuPrincipal();
+			seleccionarMenu(j);
+      	    break;    
         case SALIR:
         	//j.getSeparados().addAll(j.getSeparadosPrevio());
         	//j.borrarListaSeparadosPrevio();
@@ -214,24 +228,27 @@ public class Juego  {
     	{
 			e.printStackTrace();
 		}
-    	
+    	final String GENERALA_ON="on";
+    	final String GENERALA_OFF="off";
+    	String generalaGana=GENERALA_OFF;
     	int vueltaPrincipal=1;
-		while(vueltaPrincipal<=10)
+		while(vueltaPrincipal<=LIMITE_VUELTAS_GENERALES)
 		{
 			for (int i = 0; i < getListaJugadores().size(); i++) 
 			{
 				setVueltaXJugador(1);
 				getListaJugadores().get(i).borrarListaseparados();
-				while(getVueltaXJugador()<=3)
+				while(getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
 				    {
 					    getListaJugadores().get(i).TirarDados();
 				    	menuReverse(getListaJugadores().get(i));
 				        
 				    	if(generalaServida(getListaJugadores().get(i)))
 				    	{
-				    		setVueltaXJugador(4);
+				    		setVueltaXJugador(SALIR_WHILE_VUELTA);
 				    		i=5;
 				    		vueltaPrincipal=11;
+				    		generalaGana=GENERALA_ON;
 				    	}
 				    	else
 				    	{
@@ -244,7 +261,7 @@ public class Juego  {
 							}
 							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
 							{
-								if(getVueltaXJugador() == 3)
+								if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
 								{
 									if(tacharJugada(getListaJugadores().get(i)))
 									{
@@ -261,7 +278,34 @@ public class Juego  {
 				    }			
 			}       
 		}
-    }		
+		if(generalaGana.equals(GENERALA_OFF))
+		{
+			for (int i = 0; i < getListaJugadores().size(); i++) 
+			{
+				System.out.println(getListaJugadores().get(i).getNombre());
+				getListaJugadores().get(i).imprimirTableResults();
+				System.out.println(getListaJugadores().get(i).getNombre() + ":" + "\n" + "TOTAL: " + getListaJugadores().get(i).sumarResultadosFinales());
+			}
+		    JOptionPane.showMessageDialog(null, "EL GANADOR ES " + ganador().getNombre() + "CON UN TOTAL DE: " + ganador().sumarResultadosFinales());	
+		}
+    }	
+    
+    public Jugador ganador()
+    {
+    	int mayor=0;
+    	int total=0;
+    	Jugador ganador=null;
+    	for (int i = 0; i < getListaJugadores().size(); i++) 
+    	{
+    		total= getListaJugadores().get(i).sumarResultadosFinales();
+			if(mayor < total)
+			{
+				mayor=total;
+				ganador=getListaJugadores().get(i);
+			}
+		}
+    	return ganador;
+    }
     
     
     public boolean generalaServida(Jugador j)
@@ -291,6 +335,8 @@ public class Juego  {
     	int input=0;
     	for(int i = 0; i < jugadas.size(); i++)
     	{   
+    		final int ANOTAR=1;
+    		final int SALIR_SIN_ANOTAR=2;		
     		int puntos=0;
     	    if(jugadas.get(i).encontrada(j.getListaDados())) 
     	    {
@@ -299,12 +345,12 @@ public class Juego  {
     	    		puntos=5;
     	    	}
     	    		input= Integer.parseInt(JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR"));
-    	    	    if(input==1)
+    	    	    if(input == ANOTAR)
     	    	    {
     	    	    	if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos() + puntos))
     	    	    	{
     	    	    		JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    	     			    setVueltaXJugador(4);
+    	     			    setVueltaXJugador(SALIR_WHILE_VUELTA);
     	     			    bool= true;
     	     		    }
     	    	    	else
@@ -315,7 +361,7 @@ public class Juego  {
     	     	    }
     	    	    else
     	    	    {
-    	    	    	if(input==2)
+    	    	    	if(input == SALIR_SIN_ANOTAR)
     	    	    	{
     	    	    		bool= false;
     	    		    }
@@ -333,6 +379,8 @@ public class Juego  {
     
     public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
     {
+    	final int ANOTAR=1;
+		final int SALIR_SIN_ANOTAR=2;
     	boolean bool=false;
     	int input=0;
     	for(int i = 0; i < jugadas.size(); i++)
@@ -340,12 +388,12 @@ public class Juego  {
     	    if(jugadas.get(i).encontrada(j.getSeparados())) 
     	    {
     	    	input= Integer.parseInt(JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR"));
-    	    	if(input==1)
+    	    	if(input == ANOTAR)
     	    	{
     	    		if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
     	    		{
     	    			JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    	     		    setVueltaXJugador(4);
+    	     		    setVueltaXJugador(SALIR_WHILE_VUELTA);
     	     			bool= true;
     	     		}
     	    		else
@@ -355,7 +403,7 @@ public class Juego  {
     	     	}
     	    	else
     	    	{
-    	    		if(input==2)
+    	    		if(input == SALIR_SIN_ANOTAR)
     	    		{
     	    			bool= false;
     	    		}

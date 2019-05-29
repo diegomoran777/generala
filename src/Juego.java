@@ -1,7 +1,4 @@
-import java.awt.HeadlessException;
-import java.io.ObjectInputStream.GetField;
-import java.lang.invoke.SwitchPoint;
-import java.time.Period;
+
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -187,8 +184,8 @@ public class Juego  {
 			seleccionarMenu(j);
 			break;
   	    case SUMAR_DADO:
-    	    // sumar , verifica si es encontrado el valor, el jugador elige si quiere sumarla , no o salir,si suma, ok, si es no, entonces vuelve al menu principal o si no encuentra el valor vuelve a sumar 
-    	    break;
+  	    	menuSumar(j);
+  	    	break;
         case TACHAR_JUGADA:
         	menuTachar(j);
     	    break;
@@ -259,25 +256,30 @@ public class Juego  {
 								getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
 					        	getListaJugadores().get(i).borrarListaSeparadosPrevio();
 							}
-							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
+							if(getVueltaXJugador() != SALIR_WHILE_VUELTA)
 							{
-								if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
+								if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
 								{
-									if(tacharJugada(getListaJugadores().get(i)))
+									if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
 									{
-										JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+										if(tacharJugada(getListaJugadores().get(i)))
+										{
+											JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+										}
+										else
+										{
+											tacharJugada(getListaJugadores().get(i));
+										}
 									}
-									else
-									{
-										tacharJugada(getListaJugadores().get(i));
-									}
+									setVueltaXJugador(getVueltaXJugador()+1);
 								}
-								    setVueltaXJugador(getVueltaXJugador()+1);
 							}
+							
 						}
 				    }			
 			}       
 		}
+		
 		if(generalaGana.equals(GENERALA_OFF))
 		{
 			for (int i = 0; i < getListaJugadores().size(); i++) 
@@ -305,6 +307,66 @@ public class Juego  {
 			}
 		}
     	return ganador;
+    }
+    
+    public boolean menuSumar(Jugador j) throws exceptionjugadaAnotada
+    {
+    	boolean bool=false;
+    	final String OK="SI";
+    	final String NOT="NO";
+    	if(j.getListaDados().size( )== 0)
+		{
+			JOptionPane.showMessageDialog(null, "NO HAY DADOS PARA SUMAR");
+			bool=false;
+			menuPrincipal();
+	    	seleccionarMenu(j);
+		}
+		else
+		{
+			int input= Integer.parseInt(JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SUMAR:"+ "\n" + "DADOS: " + j.getListaDados() + "\n" + "salir= 0"));
+			if(input==SALIR)
+			{
+				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
+				bool=false;
+				menuPrincipal();
+  	    		seleccionarMenu(j);
+			}
+			else
+			{
+				Jugada sumar= new JugadaDado(input);
+				if(sumar.encontrada(j.getListaDados()))
+				{
+					String input_dos= JOptionPane.showInputDialog("DESEA ANOTAR LA JUGADA?:" + input + " PUNTOS: " + sumar.puntos() + " ESCRIBA: " +  "SI" + " O " + "NO");
+					if(input_dos.equalsIgnoreCase(OK) && j.anotarResultado(sumar.nombre(), sumar.puntos()))
+					{
+						bool=true;
+						setVueltaXJugador(SALIR_WHILE_VUELTA);
+					}
+					else
+					{
+						if(input_dos.equalsIgnoreCase(NOT))
+						{
+							bool=false;
+							menuPrincipal();
+			  	    		seleccionarMenu(j);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null,"LA JUGADA YA ESTA ANOTADA, INTENTE CON OTRA O SELECCIONE SALIR PARA VOLVER AL MENU PRINCIPAL");
+							menuSumar(j);
+						}
+						
+					}
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
+				    menuSumar(j);
+				}	
+		    }
+	    }
+		return bool;
     }
     
     

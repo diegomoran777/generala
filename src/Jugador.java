@@ -3,7 +3,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.swing.JOptionPane;
 
 public class Jugador {
 
@@ -149,6 +148,14 @@ public class Jugador {
 			agregarDado(lista[i]);
 		}
 		
+	}
+	
+	public void imprimirDados()
+	{
+		for (int i = 0; i < getListaDados().size(); i++)
+		{
+			System.out.println( " DADO: " + getListaDados().get(i));
+		}
 	}
 	
 	public void imprimirTableResults()

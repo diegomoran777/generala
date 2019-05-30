@@ -17,67 +17,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ArrayList<Integer> dados=new ArrayList<Integer>();
-		
-		
-		dados.add(6);
-		dados.add(6);
-		dados.add(6);
-		dados.add(6);
-		dados.add(6);
-		
-		
-	Set<Integer> repetido = new HashSet<>(); 
-    for (int i = 0; i < dados.size(); i++) {
-       repetido.add(dados.get(i));
-       int freq=Collections.frequency(dados, dados.get(i));
-       
-       if(freq==4)
-       {
-    	   System.out.println("false");
-       }
 	}
-    
-    if(repetido.size()!=2){
-       System.out.println("false");
-    }
-    
-    System.out.println("true");
-    
-
-
-
-				
-	/*
-	int cont2=0;
-		for (int i = 1; i <= 6; i++) 
-		{   int cont=0;
-			for (int j = 0; j < dados.size(); j++) 
-			{
-				if(dados.get(j)==i){
-					cont++;
-				}
-			}
-			if(cont==3){
-				cont2++;
-			}
-			else{
-				if(cont==2){
-					cont2++;
-				}
-			}
-		}
-		if(cont2==2) {
-			System.out.println("true");
-		}
-		else {
-			System.out.println("false");
-		}
-		*/
-		
-		
-		
-		
-	        
-}
+	
 }

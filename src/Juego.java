@@ -27,7 +27,12 @@ public class Juego  {
 		setVueltaXJugador(1);
 	}
 	
+
+	
+	public void cargarCantidadJugadores() throws ExceptionCantidadPlayers
+
 	public void cargarCantidadJugadores() throws exceptionCantidadPlayers
+
 	{
 		final int VALOR_LIMITE_MENOR=2;
 		final int VALOR_LIMITE_MAYOR=4;
@@ -42,18 +47,26 @@ public class Juego  {
 		}
 		else
 		{
-			throw new exceptionCantidadPlayers("Ingresar cantidad correcta de jugadores");
+			throw new ExceptionCantidadPlayers("Ingresar cantidad correcta de jugadores");
 		}
 	}
 	
+
+	public boolean tacharJugada(Jugador j) throws ExceptionJugadaAnotada
+
 	public boolean tacharJugada(Jugador j) throws exceptionjugadaAnotada
+
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
 		return j.anotarResultado(input, Jugador.getPuntostachar());
 		
 	}
 	
+
+    public void menuTachar(Jugador j) throws ExceptionJugadaAnotada 
+
     public void menuTachar(Jugador j) throws exceptionjugadaAnotada 
+
     {
 			if(tacharJugada(j))
 			{
@@ -162,8 +175,14 @@ public class Juego  {
                 "0-SALIR O CONTINUAR"));
 		setInputPrincipal(input);
 	}
+
+	
+	
+	public void seleccionarMenu(Jugador j) throws ExceptionJugadaAnotada
+
 		
 	public void seleccionarMenu(Jugador j) throws exceptionjugadaAnotada
+
 	{
 		final int SEPARAR_DADO=1;
 		final int REINCORPORAR_DADO=2;
@@ -215,6 +234,14 @@ public class Juego  {
 	{
 		return input;
 	}
+
+    public void Jugar() throws ExceptionJugadaAnotada
+    {
+    	try {
+			cargarCantidadJugadores();
+		} catch (ExceptionCantidadPlayers e) {
+			
+
 	
     public void Jugar() throws exceptionjugadaAnotada
     {
@@ -223,6 +250,7 @@ public class Juego  {
     		} 
     	catch (exceptionCantidadPlayers e) 
     	{
+
 			e.printStackTrace();
 		}
     	final String GENERALA_ON="on";
@@ -390,8 +418,12 @@ public class Juego  {
     	}
     	return bool;
     }
+
+    public boolean encontrarJugada(Jugador j) throws  ExceptionJugadaAnotada
+
     
     public boolean encontrarJugada(Jugador j) throws exceptionjugadaAnotada
+
     {
     	boolean bool=false;
     	int input=0;

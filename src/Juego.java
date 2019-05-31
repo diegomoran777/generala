@@ -27,14 +27,13 @@ public class Juego  {
 		setVueltaXJugador(1);
 	}
 	
-	public void cargarCantidadJugadores() throws exceptionCantidadPlayers
+	public void cargarCantidadJugadores()
 	{
-		final int VALOR_LIMITE_MENOR=2;
-		final int VALOR_LIMITE_MAYOR=4;
-		int cantidad=Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores"));
-		if(cantidad>=VALOR_LIMITE_MENOR || cantidad<=VALOR_LIMITE_MAYOR)
+		String cantidad=JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores");
+		if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 		{
-			for(int i=0; i < cantidad; i++)
+			int cant= Integer.parseInt(cantidad);
+			for(int i=0; i < cant; i++)
 			{
 				String nombre= JOptionPane.showInputDialog("Ingrese el nombre");
 				getListaJugadores().add(new Jugador(nombre));
@@ -42,7 +41,8 @@ public class Juego  {
 		}
 		else
 		{
-			throw new exceptionCantidadPlayers("Ingresar cantidad correcta de jugadores");
+			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+			cargarCantidadJugadores();
 		}
 	}
 	
@@ -70,16 +70,16 @@ public class Juego  {
     
     public void menuReverse(Jugador j)
     {
-    	final int SI=1;
-    	final int NO=2;
-    	int input=Integer.parseInt(JOptionPane.showInputDialog("QUIERE USAR EL VALOR DE LA CARA OPUESTA DE LOS DADOS?:" + "\n" + "1-SI:" + "\n" + "2-NO:" ));
-    	if(input==SI)
+    	final String SI="si";
+    	final String NO="no";
+    	String input=JOptionPane.showInputDialog("QUIERE USAR EL VALOR DE LA CARA OPUESTA DE LOS DADOS?:" + "\n" + "1-SI:" + "\n" + "2-NO:" );
+    	if(input.equalsIgnoreCase(SI))
     	{
     		j.reverse();
     	}
     	else
     	{
-    		if(input==NO)
+    		if(input.equalsIgnoreCase(NO))
     		{
     			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
     		}
@@ -218,14 +218,8 @@ public class Juego  {
 	
     public void Jugar() throws exceptionjugadaAnotada
     {
-    	try {
-    		cargarCantidadJugadores();
-    		} 
-    	catch (exceptionCantidadPlayers e) 
-    	{
-			e.printStackTrace();
-		}
-    	final String GENERALA_ON="on";
+    	cargarCantidadJugadores();
+        final String GENERALA_ON="on";
     	final String GENERALA_OFF="off";
     	String generalaGana=GENERALA_OFF;
     	int vueltaPrincipal=1;
@@ -237,6 +231,7 @@ public class Juego  {
 				getListaJugadores().get(i).borrarListaseparados();
 				while(getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
 				{   
+					System.out.println("JUGADOR: " + getListaJugadores().get(i).getNombre() + "\n" + " RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getVueltaXJugador());
 					getListaJugadores().get(i).TirarDados();
 					menuReverse(getListaJugadores().get(i));
 					
@@ -440,44 +435,49 @@ public class Juego  {
     
     public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
     {
-    	final int ANOTAR=1;
-		final int SALIR_SIN_ANOTAR=2;
     	boolean bool=false;
-    	int input=0;
-    	for(int i = 0; i < jugadas.size(); i++)
-    	{   
-    	    if(jugadas.get(i).encontrada(j.getSeparados())) 
-    	    {
-    	    	input= Integer.parseInt(JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR"));
-    	    	if(input == ANOTAR)
-    	    	{
-    	    		if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
-    	    		{
-    	    			JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    	     		    setVueltaXJugador(SALIR_WHILE_VUELTA);
-    	     			bool= true;
-    	     		}
-    	    		else
-    	    		{
-    	    			bool= false;
-    	     		} 	     		
-    	     	}
-    	    	else
-    	    	{
-    	    		if(input == SALIR_SIN_ANOTAR)
-    	    		{
-    	    			bool= false;
-    	    		}
-    	    		else
-    	    		{
-    	    			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
-    	    			encontrarJugada(j);
-    	    		}
-    	    	}
-    	    	 
-    	    }
+    	if(j.getSeparados().size() == 0)
+    	{
+    		bool= false;
     	}
-       return bool;
+    	else
+    	{
+    		final String ANOTAR="1";
+    		final String SALIR_SIN_ANOTAR="2";
+    		for(int i = 0; i < jugadas.size(); i++)
+    		{
+    			if(jugadas.get(i).encontrada(j.getSeparados())) 
+    			{
+    				String input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
+    				if(input.equals(ANOTAR))
+    				{
+    					if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
+    					{
+    						JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
+    						setVueltaXJugador(SALIR_WHILE_VUELTA);
+    						bool= true;
+    					}
+    					else
+    					{
+    						bool= false;
+    					} 	     		
+    				}
+    				else
+    				{
+    					if(input.equals(SALIR_SIN_ANOTAR))
+    					{
+    						bool= false;
+    					}
+    					else
+    					{
+    						JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+    						encontrarJugada(j);
+    					}
+    				}
+    	    	}
+    		}
+    	}
+     return bool;
     }
     
 	public ArrayList<Jugador> getListaJugadores() 

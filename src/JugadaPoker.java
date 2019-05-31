@@ -24,9 +24,13 @@ public class JugadaPoker implements Jugada{
 
 	@Override
 	public boolean encontrada(ArrayList<Integer> dados) 
-	{       
+	{
+		if(dados.size() == 0)
+		{
+			return false;
+		}
 		Collections.sort(dados);
-		for(int i = 0; i < dados.size(); i++)
+		for(int i = 1; i < dados.size(); i++)
 		{
 			if(i == 4)
 			{
@@ -37,7 +41,7 @@ public class JugadaPoker implements Jugada{
 				return false;
 			}
 		}
-			return true;
+		return true;
 	}
 
 }

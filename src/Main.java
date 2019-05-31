@@ -12,7 +12,7 @@ public class Main {
 		for (int i = 0; i < diego.getSeparados().size(); i++) {
 			
 			System.out.println(diego.getSeparados().get(i));
-		}*/
+		}
 		ArrayList<Integer>dados=new ArrayList<Integer>();
 		dados.add(5);
 		dados.add(5);
@@ -25,7 +25,8 @@ public class Main {
 		System.out.println(escalera.encontrada(dados));
 		System.out.println(full.encontrada(dados));
 		System.out.println(poker.encontrada(dados));
-	
+	*/
+		
 
 	}
 	

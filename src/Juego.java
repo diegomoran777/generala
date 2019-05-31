@@ -55,17 +55,17 @@ public class Juego  {
 	
     public void menuTachar(Jugador j) throws exceptionjugadaAnotada 
     {
-			if(tacharJugada(j))
-			{
-				JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-				setVueltaXJugador(SALIR_WHILE_VUELTA);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
-				menuPrincipal();
-				seleccionarMenu(j);
-			}
+    	if(tacharJugada(j))
+		{
+			JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+			setVueltaXJugador(SALIR_WHILE_VUELTA);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
+			menuPrincipal();
+			seleccionarMenu(j);
+		}
     }
     
     public void menuReverse(Jugador j)

@@ -28,8 +28,8 @@ public class Juego  {
 	}
 	
 	public void cargarCantidadJugadores()
-  {
-    String cantidad=JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores");
+	{
+		String cantidad=JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores");
 		if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 		{
 			int cant= Integer.parseInt(cantidad);
@@ -41,39 +41,31 @@ public class Juego  {
 		}
 		else
 		{
-      JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
 			cargarCantidadJugadores();
 		}
 	}
 	
-
-	public boolean tacharJugada(Jugador j) throws ExceptionJugadaAnotada
-
 	public boolean tacharJugada(Jugador j) throws exceptionjugadaAnotada
-
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
 		return j.anotarResultado(input, Jugador.getPuntostachar());
 		
 	}
 	
-
-    public void menuTachar(Jugador j) throws ExceptionJugadaAnotada 
-
     public void menuTachar(Jugador j) throws exceptionjugadaAnotada 
-
     {
-			if(tacharJugada(j))
-			{
-				JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-				setVueltaXJugador(SALIR_WHILE_VUELTA);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
-				menuPrincipal();
-				seleccionarMenu(j);
-			}
+    	if(tacharJugada(j))
+		{
+			JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+			setVueltaXJugador(SALIR_WHILE_VUELTA);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
+			menuPrincipal();
+			seleccionarMenu(j);
+		}
     }
     
     public void menuReverse(Jugador j)
@@ -170,14 +162,8 @@ public class Juego  {
                 "0-SALIR O CONTINUAR"));
 		setInputPrincipal(input);
 	}
-
-	
-	
-	public void seleccionarMenu(Jugador j) throws ExceptionJugadaAnotada
-
 		
 	public void seleccionarMenu(Jugador j) throws exceptionjugadaAnotada
-
 	{
 		final int SEPARAR_DADO=1;
 		final int REINCORPORAR_DADO=2;
@@ -229,19 +215,11 @@ public class Juego  {
 	{
 		return input;
 	}
-
-    public void Jugar() throws ExceptionJugadaAnotada
-    {
-    	try {
-			cargarCantidadJugadores();
-		} catch (ExceptionCantidadPlayers e) {
-			
-
 	
     public void Jugar() throws exceptionjugadaAnotada
     {
-      cargarCantidadJugadores();
-    	final String GENERALA_ON="on";
+    	cargarCantidadJugadores();
+        final String GENERALA_ON="on";
     	final String GENERALA_OFF="off";
     	String generalaGana=GENERALA_OFF;
     	int vueltaPrincipal=1;
@@ -293,7 +271,8 @@ public class Juego  {
 						}
 					}
 				}   			
-			}       
+			}
+			vueltaPrincipal++;
 		}
 		
 		if(generalaGana.equals(GENERALA_OFF))
@@ -352,7 +331,7 @@ public class Juego  {
 				Jugada sumar= new JugadaDado(input);
 				if(sumar.encontrada(j.getListaDados()))
 				{
-					String input_dos= JOptionPane.showInputDialog("DESEA ANOTAR LA JUGADA?:" + input + " PUNTOS: " + sumar.puntos() + " ESCRIBA: " +  "SI" + " O " + "NO");
+					String input_dos= JOptionPane.showInputDialog("DESEA ANOTAR LA JUGADA?: " + input + " PUNTOS: " + sumar.puntos() + " ESCRIBA: " +  "SI" + " O " + "NO");
 					if(input_dos.equalsIgnoreCase(OK) && j.anotarResultado(sumar.nombre(), sumar.puntos()))
 					{
 						bool=true;
@@ -406,12 +385,8 @@ public class Juego  {
     	}
     	return bool;
     }
-
-    public boolean encontrarJugada(Jugador j) throws  ExceptionJugadaAnotada
-
     
     public boolean encontrarJugada(Jugador j) throws exceptionjugadaAnotada
-
     {
     	boolean bool=false;
     	int input=0;

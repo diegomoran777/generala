@@ -31,7 +31,8 @@ public class JugadaFull implements Jugada
         
 	@Override
     public boolean encontrada(ArrayList<Integer> dados) 
-    {   //En el set se guardan los numeros sin repetirse:
+    {   
+		//En el set se guardan los numeros sin repetirse:
 		Set<Integer> repetido = new HashSet<>();
 		for (int i = 0; i < dados.size(); i++)
 		{

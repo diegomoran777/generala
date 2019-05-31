@@ -1,52 +1,47 @@
 import java.util.ArrayList;
 
+import java.util.Collections;
+
 public class JugadaPoker implements Jugada{
 
-	public JugadaPoker() {
+	public JugadaPoker() 
+	{
 		
 	}
 	
 	
 	@Override
-	public String nombre() {
-		
+	public String nombre() 
+	{
 		return "Poker";
 	}
 
 	@Override
-	public int puntos() {
-		
+	public int puntos()
+	{
 		return 40;
 	}
 
 	@Override
-	public boolean encontrada(ArrayList<Integer> dados) {
-		boolean detectar=false;
-		for(int i=1;i<=6;i++)
+	public boolean encontrada(ArrayList<Integer> dados) 
+	{
+		if(dados.size() == 0)
 		{
-			int cont=0;
-			for(int j=0;j<dados.size();j++)
+			return false;
+		}
+		Collections.sort(dados);
+		for(int i = 1; i < dados.size(); i++)
+		{
+			if(i == 4)
 			{
-				if(dados.get(j)==i)
-				{
-					cont++;
-				}
+				return true;
 			}
-			if(cont==4)
+			if(dados.get(i) != dados.get(i-1) && i != 1)
 			{
-				i=6;
-				detectar= true;
-			}
-			else {
-				if(i==6)
-				{
-					detectar= false;
-				}
+				return false;
 			}
 		}
-       return detectar;
+		return true;
 	}
 
-	
-	
 }

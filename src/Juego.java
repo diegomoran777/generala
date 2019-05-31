@@ -435,9 +435,9 @@ public class Juego  {
     
     public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
     {
-    	boolean bool=false;
     	final String ANOTAR="1";
     	final String SALIR_SIN_ANOTAR="2";
+    	boolean bool=false;
     	for(int i = 0; i < jugadas.size(); i++)
     	{
     		if(jugadas.get(i).encontrada(j.getSeparados())) 

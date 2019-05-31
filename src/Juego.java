@@ -436,47 +436,41 @@ public class Juego  {
     public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
     {
     	boolean bool=false;
-    	if(j.getSeparados().size() == 0)
+    	final String ANOTAR="1";
+    	final String SALIR_SIN_ANOTAR="2";
+    	for(int i = 0; i < jugadas.size(); i++)
     	{
-    		bool= false;
-    	}
-    	else
-    	{
-    		final String ANOTAR="1";
-    		final String SALIR_SIN_ANOTAR="2";
-    		for(int i = 0; i < jugadas.size(); i++)
+    		if(jugadas.get(i).encontrada(j.getSeparados())) 
     		{
-    			if(jugadas.get(i).encontrada(j.getSeparados())) 
+    			String input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
+    			if(input.equals(ANOTAR))
     			{
-    				String input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
-    				if(input.equals(ANOTAR))
+    				if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
     				{
-    					if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
-    					{
-    						JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    						setVueltaXJugador(SALIR_WHILE_VUELTA);
-    						bool= true;
-    					}
-    					else
-    					{
-    						bool= false;
-    					} 	     		
+    					JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
+    					setVueltaXJugador(SALIR_WHILE_VUELTA);
+    					bool= true;
     				}
     				else
     				{
-    					if(input.equals(SALIR_SIN_ANOTAR))
-    					{
-    						bool= false;
-    					}
-    					else
-    					{
-    						JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
-    						encontrarJugada(j);
-    					}
+    					bool= false;
+    				} 	     		
+    			}
+    			else
+    			{
+    				if(input.equals(SALIR_SIN_ANOTAR))
+    				{
+    					bool= false;
     				}
-    	    	}
-    		}
+    				else
+    				{
+    					JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+    					encontrarJugada(j);
+    				}
+    			}
+    	    }
     	}
+    	
      return bool;
     }
     

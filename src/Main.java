@@ -5,8 +5,8 @@ public class Main {
 
 	public static void main(String[] args) throws exceptionjugadaAnotada {
 		
-		/*Juego generala=new Juego();
-		generala.Jugar();*/
+		Juego generala=new Juego();
+		generala.Jugar();
 		
 		/*Jugador diego=new Jugador("diego");
 		for (int i = 0; i < diego.getSeparados().size(); i++) {

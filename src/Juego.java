@@ -264,47 +264,46 @@ public class Juego  {
 				setVueltaXJugador(1);
 				getListaJugadores().get(i).borrarListaseparados();
 				while(getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
-				    {
-					    getListaJugadores().get(i).TirarDados();
-				    	menuReverse(getListaJugadores().get(i));
-				        
-				    	if(generalaServida(getListaJugadores().get(i)))
-				    	{
-				    		setVueltaXJugador(SALIR_WHILE_VUELTA);
-				    		i=5;
-				    		vueltaPrincipal=11;
-				    		generalaGana=GENERALA_ON;
-				    	}
-				    	else
-				    	{
-							if(encontrarJugada(getListaJugadores().get(i)) != true)
-							{
-								menuPrincipal();
-								seleccionarMenu(getListaJugadores().get(i));
-								getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
-					        	getListaJugadores().get(i).borrarListaSeparadosPrevio();
-							}
-							if(getVueltaXJugador() != SALIR_WHILE_VUELTA)
-							{
-								if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
-								{
-									if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
-									{
-										if(tacharJugada(getListaJugadores().get(i)))
-										{
-											JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-										}
-										else
-										{
-											tacharJugada(getListaJugadores().get(i));
-										}
-									}
-									setVueltaXJugador(getVueltaXJugador()+1);
-								}
-							}
-							
+				{   
+					getListaJugadores().get(i).TirarDados();
+					menuReverse(getListaJugadores().get(i));
+					
+					if(generalaServida(getListaJugadores().get(i)))
+					{
+						setVueltaXJugador(SALIR_WHILE_VUELTA);
+						i=5;
+						vueltaPrincipal=11;
+						generalaGana=GENERALA_ON;
+					}
+					else
+					{
+						if(encontrarJugada(getListaJugadores().get(i)) != true)
+						{
+							menuPrincipal();
+							seleccionarMenu(getListaJugadores().get(i));
+							getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
+							getListaJugadores().get(i).borrarListaSeparadosPrevio();
 						}
-				    }			
+						if(getVueltaXJugador() != SALIR_WHILE_VUELTA)
+						{
+							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
+							{
+								if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
+								{
+									if(tacharJugada(getListaJugadores().get(i)))
+									{
+										JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+									}
+									else
+									{
+										tacharJugada(getListaJugadores().get(i));
+									}
+								}
+								setVueltaXJugador(getVueltaXJugador()+1);
+							}
+						}
+					}
+				}   			
 			}       
 		}
 		

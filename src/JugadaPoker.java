@@ -26,12 +26,15 @@ public class JugadaPoker implements Jugada{
 
 	@Override
 	public boolean encontrada(ArrayList<Integer> dados) 
-	{   Set<Integer> sinrepetir = new HashSet<>();
-            for(Integer i : dados)
-            {
-                sinrepetir.add(i);
-            }
-            return Collections.frequency(dados, dados.get(2)) == 4 && sinrepetir.size() == 2;
-	}
+	{
+		Set<Integer>sinrepetir = new HashSet<>();
+                for(Integer i : dados)
+                {
+                    sinrepetir.add(i);
+                }
+            return Collections.frequency(dados, dados.get(2)) == 4 && sinrepetir.size() == 2 ;
+         
 
+
+          }
 }

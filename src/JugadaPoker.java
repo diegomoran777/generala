@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import java.util.Collections;
+import java.util.Set;
 
 public class JugadaPoker implements Jugada{
 
@@ -24,24 +26,12 @@ public class JugadaPoker implements Jugada{
 
 	@Override
 	public boolean encontrada(ArrayList<Integer> dados) 
-	{
-		if(dados.size() == 0)
-		{
-			return false;
-		}
-		Collections.sort(dados);
-		for(int i = 1; i < dados.size(); i++)
-		{
-			if(i == 4)
-			{
-				return true;
-			}
-			if(dados.get(i) != dados.get(i-1) && i != 1)
-			{
-				return false;
-			}
-		}
-		return true;
+	{   Set<Integer> sinrepetir = new HashSet<>();
+            for(Integer i : dados)
+            {
+                sinrepetir.add(i);
+            }
+            return Collections.frequency(dados, dados.get(2)) == 4 && sinrepetir.size() == 2;
 	}
 
 }

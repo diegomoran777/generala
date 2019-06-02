@@ -1,3 +1,5 @@
+package generala;
+
 
 public class exceptionjugadaAnotada extends Exception {
 	public exceptionjugadaAnotada(String msg) {

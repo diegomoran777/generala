@@ -1,3 +1,5 @@
+package generala;
+
 import java.util.ArrayList;
 
 public interface Jugada {

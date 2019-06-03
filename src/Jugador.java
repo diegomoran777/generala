@@ -36,54 +36,7 @@ public class Jugador {
 		setTablaResults(tablaResults);
 		setSeparadosPrevio(new ArrayList<Integer>());	
 	}
-	/*
-	 * pasar la variable de vuelta particular como variable de jugador
-	 * 
-	public interface ObjetoJsoneable        
-	{
-		JSONObject pasarAJson();       implementa en juego y jugador
-	}
-	
-	public Juego(JSONObject from)
-	{
-		JSONArray jplayers = from.getJSONArray("jugadores");
-		for(int i = 0; i < jplayers.length(); i++)
-		{
-			this.jugadores.add(new Jugador(jplayers.getJSONObject(i)));
-		}
-	}
-	
-	public Jugador(JSONObject from)
-	{
-		this.setNombre(from.getString("nombre"));
-		JSONArray jseparados = from.getJSONArray("separados");
-		for(int i = 0; i < jseparados.length(); i++)
-		{
-			this.separados.add(jseparados.getInt(i));
-		}
-	}
-	
-	// Juego:
-	public JSONObject pasarAJson()
-	{
-		JSONObject jgame = new JSONObject();
-		JSONArray jplayers = new JSONArray();
-		for(Jugador j : this.getJugadores())
-		{
-			jplayers.put(j.pasarAJson());
-		}
-		jgame.put("jugadores", jplayers);
-		return jgame;
-	}
-	
-	public JSONObject pasarAJson()
-	{
-		JSONObject j = new JSONObject();           para map usar objetojson para pasar el map y luego map.put(el valorEnJSON)
-		j.put("nombre", this.getNombre());         si no guarda null poner en los valores null -1
-		j.put("separados", this.getSeparados());
-		return j;
-	}
-	*/
+
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
 	{
 		return separadosPrevio.contains(input);

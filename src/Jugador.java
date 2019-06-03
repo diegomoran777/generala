@@ -3,6 +3,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 public class Jugador {
 
@@ -31,17 +36,57 @@ public class Jugador {
 		setTablaResults(tablaResults);
 		setSeparadosPrevio(new ArrayList<Integer>());	
 	}
+	/*
+	 * pasar la variable de vuelta particular como variable de jugador
+	 * 
+	public interface ObjetoJsoneable        
+	{
+		JSONObject pasarAJson();       implementa en juego y jugador
+	}
 	
+	public Juego(JSONObject from)
+	{
+		JSONArray jplayers = from.getJSONArray("jugadores");
+		for(int i = 0; i < jplayers.length(); i++)
+		{
+			this.jugadores.add(new Jugador(jplayers.getJSONObject(i)));
+		}
+	}
+	
+	public Jugador(JSONObject from)
+	{
+		this.setNombre(from.getString("nombre"));
+		JSONArray jseparados = from.getJSONArray("separados");
+		for(int i = 0; i < jseparados.length(); i++)
+		{
+			this.separados.add(jseparados.getInt(i));
+		}
+	}
+	
+	// Juego:
+	public JSONObject pasarAJson()
+	{
+		JSONObject jgame = new JSONObject();
+		JSONArray jplayers = new JSONArray();
+		for(Jugador j : this.getJugadores())
+		{
+			jplayers.put(j.pasarAJson());
+		}
+		jgame.put("jugadores", jplayers);
+		return jgame;
+	}
+	
+	public JSONObject pasarAJson()
+	{
+		JSONObject j = new JSONObject();           para map usar objetojson para pasar el map y luego map.put(el valorEnJSON)
+		j.put("nombre", this.getNombre());         si no guarda null poner en los valores null -1
+		j.put("separados", this.getSeparados());
+		return j;
+	}
+	*/
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
 	{
-		if(separadosPrevio.contains(input))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return separadosPrevio.contains(input);
 	}
 	
 	public void devolverAListaDeDados(int input)
@@ -53,14 +98,7 @@ public class Jugador {
 	
 	public boolean separarDados(ArrayList<Integer>listaDeDados, int input)
 	{
-		if(listaDeDados.contains(input))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return listaDeDados.contains(input);
 	}
 	
 	public void agregarSeparadoPrevio(int input)
@@ -182,38 +220,28 @@ public class Jugador {
 		return value;
 	}
 	
-	public boolean availableplay(String nombreJugada) 
+	public boolean jugadaDisponible(String nombreJugada) 
 	{
-		 Integer jugada= getTablaResults().get(nombreJugada);
-		 if(jugada == null)
-		 {
-			 return true;
-		 }
-		 else
-		 {
-			 return false;
-		 }
+		Integer jugada= getTablaResults().get(nombreJugada);
+		return jugada == null ? true :false;
 	}
 	
 	public boolean existeJugada(String input)
 	{
-		if(getTablaResults().containsKey(input.toLowerCase()))
-		{
-			return true;
-		}
-		return false;
+		return getTablaResults().containsKey(input.toLowerCase());
 	}
 	
-	public boolean  anotarResultado(String nombreJugada , int puntos)  throws exceptionjugadaAnotada
+	public boolean  anotarResultado(String nombreJugada , int puntos)
 	{
-			if(availableplay(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
+			if(jugadaDisponible(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
 			{
 				getTablaResults().put(nombreJugada, puntos);
 				return true;
 			}
 			else
 			{
-				throw new exceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				JOptionPane.showMessageDialog(null,"La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				return false;
 			}	
 	}
 	

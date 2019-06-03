@@ -1,5 +1,3 @@
-package generala;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -92,7 +90,6 @@ public class Jugador {
 		getListaDados().add(dado);
 	}
 	
-	
 	public void borrarListaDados()
 	{
 		getListaDados().clear();
@@ -140,7 +137,6 @@ public class Jugador {
 			System.out.println("Dado: " + dado + " valor " + lista[i]);
 			agregarDado(lista[i]);
 		}
-		
 	}
 	
 	public void imprimirDados()
@@ -160,7 +156,6 @@ public class Jugador {
 		 {
 			 System.out.println("TABLA:" + "\n" + getNombre() + "\n" + e.getKey() + " = " + e.getValue());
 		 }
-	
 	}
 	
 	public int sumarResultadosFinales()

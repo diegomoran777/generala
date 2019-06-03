@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 public class Jugador {
 
@@ -33,17 +38,10 @@ public class Jugador {
 		setTablaResults(tablaResults);
 		setSeparadosPrevio(new ArrayList<Integer>());	
 	}
-	
+
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
 	{
-		if(separadosPrevio.contains(input))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return separadosPrevio.contains(input);
 	}
 	
 	public void devolverAListaDeDados(int input)
@@ -55,14 +53,7 @@ public class Jugador {
 	
 	public boolean separarDados(ArrayList<Integer>listaDeDados, int input)
 	{
-		if(listaDeDados.contains(input))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return listaDeDados.contains(input);
 	}
 	
 	public void agregarSeparadoPrevio(int input)
@@ -184,38 +175,28 @@ public class Jugador {
 		return value;
 	}
 	
-	public boolean availableplay(String nombreJugada) 
+	public boolean jugadaDisponible(String nombreJugada) 
 	{
-		 Integer jugada= getTablaResults().get(nombreJugada);
-		 if(jugada == null)
-		 {
-			 return true;
-		 }
-		 else
-		 {
-			 return false;
-		 }
+		Integer jugada= getTablaResults().get(nombreJugada);
+		return jugada == null ? true :false;
 	}
 	
 	public boolean existeJugada(String input)
 	{
-		if(getTablaResults().containsKey(input.toLowerCase()))
-		{
-			return true;
-		}
-		return false;
+		return getTablaResults().containsKey(input.toLowerCase());
 	}
 	
-	public boolean  anotarResultado(String nombreJugada , int puntos)  throws exceptionjugadaAnotada
+	public boolean  anotarResultado(String nombreJugada , int puntos)
 	{
-			if(availableplay(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
+			if(jugadaDisponible(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
 			{
 				getTablaResults().put(nombreJugada, puntos);
 				return true;
 			}
 			else
 			{
-				throw new exceptionjugadaAnotada("La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				JOptionPane.showMessageDialog(null,"La jugada ya esta anotada o no existe, vuelva a intentarlo");
+				return false;
 			}	
 	}
 	

@@ -1,5 +1,3 @@
-package generala;
-
 
 import java.util.ArrayList;
 
@@ -50,18 +48,16 @@ public class Juego  {
 		{
 			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
 			cargarCantidadJugadores();
-			
-			
 		}
 	}
 	
-	public boolean tacharJugada(Jugador j) throws exceptionjugadaAnotada
+	public boolean tacharJugada(Jugador j) 
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
-    public void menuTachar(Jugador j) throws exceptionjugadaAnotada 
+    public void menuTachar(Jugador j)  
     {
     	if(tacharJugada(j))
 		{
@@ -181,7 +177,7 @@ public class Juego  {
 		}
 	}
 		
-	public void seleccionarMenu(Jugador j) throws exceptionjugadaAnotada
+	public void seleccionarMenu(Jugador j) 
 	{
 		final String SEPARAR_DADO="1";
 		final String REINCORPORAR_DADO="2";
@@ -234,7 +230,7 @@ public class Juego  {
 		return input;
 	}
 	
-    public void Jugar() throws exceptionjugadaAnotada
+    public void Jugar() 
     {
     	cargarCantidadJugadores();
         final String GENERALA_ON="on";
@@ -322,7 +318,7 @@ public class Juego  {
     	return ganador;
     }
     
-    public boolean menuSumar(Jugador j) throws exceptionjugadaAnotada
+    public boolean menuSumar(Jugador j) 
     {
     	boolean bool=false;
     	final String OK="SI";
@@ -368,10 +364,8 @@ public class Juego  {
 						{
 							JOptionPane.showMessageDialog(null,"LA JUGADA YA ESTA ANOTADA, INTENTE CON OTRA O SELECCIONE SALIR PARA VOLVER AL MENU PRINCIPAL");
 							menuSumar(j);
-						}
-						
-					}
-					
+						}	
+					}	
 				}
 				else
 				{
@@ -405,7 +399,7 @@ public class Juego  {
     	return bool;
     }
     
-    public boolean encontrarJugada(Jugador j) throws exceptionjugadaAnotada
+    public boolean encontrarJugada(Jugador j) 
     {
     	boolean bool=false;
     	String input="";
@@ -450,10 +444,10 @@ public class Juego  {
     	    	 
     	    }
     	}
-    	   return bool;
+    	return bool;
     }
     
-    public boolean encontrarJugadaSerparados(Jugador j) throws exceptionjugadaAnotada
+    public boolean encontrarJugadaSerparados(Jugador j)
     {
     	final String ANOTAR="1";
     	final String SALIR_SIN_ANOTAR="2";

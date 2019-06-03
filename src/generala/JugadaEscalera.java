@@ -1,3 +1,5 @@
+package generala;
+
 
 import java.util.ArrayList;
 
@@ -35,15 +37,15 @@ public class JugadaEscalera implements Jugada
         
     @Override
     public boolean encontrada(ArrayList<Integer> dados) 
-    {
+    {   //validamos que el tamaño de la lista de dados no sea n = 0
     	if(dados.size() == 0)
     	{
     		return false;
     	}
-    	//sort del array de dados
+    	//ordenamos el array de dados
     	Collections.sort(dados);
     	for(int i = 1; i < dados.size(); i++)
-    	{
+    	{//para que haya escalera necesitamos una progresion de numeros del 1-5 o del 2-6
     		if(dados.get(i) - dados.get(i-1) != 1)
     		{
     			return false;

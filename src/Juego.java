@@ -30,6 +30,11 @@ public class Juego  {
 	public void cargarCantidadJugadores()
 	{
 		String cantidad=JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores");
+		if(cantidad == null)
+		{
+			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+			cargarCantidadJugadores();
+		}
 		if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 		{
 			int cant= Integer.parseInt(cantidad);
@@ -41,16 +46,10 @@ public class Juego  {
 		}
 		else
 		{
-			if(cantidad == null)
-			{
-				JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
-				cargarCantidadJugadores();
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
-				cargarCantidadJugadores();
-			}
+			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+			cargarCantidadJugadores();
+			
+			
 		}
 	}
 	

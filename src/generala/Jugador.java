@@ -1,3 +1,4 @@
+package generala;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -20,10 +21,10 @@ public class Jugador {
 	
 	public Jugador(String nombre)
 	{
-		tablaResults.put("generala",null);
-		tablaResults.put("poker",null);
-		tablaResults.put("full",null);
-		tablaResults.put("escalera",null);
+		tablaResults.put("GENERALA",null);
+		tablaResults.put("POKER",null);
+		tablaResults.put("FULL",null);
+		tablaResults.put("ESCALERA",null);
 		tablaResults.put("6",null);
 		tablaResults.put("5",null);
 		tablaResults.put("4",null);
@@ -151,10 +152,10 @@ public class Jugador {
 	{
 		 Set<Map.Entry<String,Integer>>
 		 lista=getTablaResults().entrySet();
-		 
+		 System.out.println("TABLA:" + " " +getNombre().toUpperCase());
 		 for (Map.Entry<String,Integer> e:lista) 
 		 {
-			 System.out.println("TABLA:" + "\n" + getNombre() + "\n" + e.getKey() + " = " + e.getValue());
+			 System.out.println(e.getKey() + " = " + e.getValue());
 		 }
 	}
 	
@@ -173,19 +174,19 @@ public class Jugador {
 	public boolean jugadaDisponible(String nombreJugada) 
 	{
 		Integer jugada= getTablaResults().get(nombreJugada);
-		return jugada == null ? true :false;
+		return jugada == null;
 	}
 	
 	public boolean existeJugada(String input)
 	{
-		return getTablaResults().containsKey(input.toLowerCase());
+		return getTablaResults().containsKey(input.toUpperCase());
 	}
 	
 	public boolean  anotarResultado(String nombreJugada , int puntos)
 	{
-			if(jugadaDisponible(nombreJugada.toLowerCase()) && existeJugada(nombreJugada))
+			if(jugadaDisponible(nombreJugada.toUpperCase()) && existeJugada(nombreJugada))
 			{
-				getTablaResults().put(nombreJugada, puntos);
+				getTablaResults().put(nombreJugada.toUpperCase(), puntos);
 				return true;
 			}
 			else

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
 
-	public static void main(String[] args) throws exceptionjugadaAnotada {
+	public static void main(String[] args){
 		
 		/*/Juego generala=new Juego();
 		generala.Jugar();/*/

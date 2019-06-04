@@ -1,4 +1,5 @@
-
+package generala;
+import generala.Jugada;
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class JugadaEscalera implements Jugada
     @Override
     public boolean encontrada(ArrayList<Integer> dados) 
     {
-    	//validamos que el tamaño de la lista de dados no sea menor a 5
+    	//validamos que el tamaï¿½o de la lista de dados no sea menor a 5
     	if(dados.size() < 5)
     	{
     		return false;

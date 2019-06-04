@@ -18,6 +18,7 @@ public class Jugador {
 	private ArrayList<Integer> listaDados;
 	private ArrayList<Integer> separadosPrevio;
 	private static final int puntosTachar=0;
+	int vueltaXJugador;
 	
 	public Jugador(String nombre)
 	{
@@ -36,6 +37,7 @@ public class Jugador {
 		setSeparados(new ArrayList<Integer>());
 		setTablaResults(tablaResults);
 		setSeparadosPrevio(new ArrayList<Integer>());	
+		setVueltaXJugador(1);
 	}
 
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
@@ -184,16 +186,16 @@ public class Jugador {
 	
 	public boolean  anotarResultado(String nombreJugada , int puntos)
 	{
-			if(jugadaDisponible(nombreJugada.toUpperCase()) && existeJugada(nombreJugada))
-			{
-				getTablaResults().put(nombreJugada.toUpperCase(), puntos);
-				return true;
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null,"La jugada ya esta anotada o no existe, vuelva a intentarlo");
-				return false;
-			}	
+		if(jugadaDisponible(nombreJugada.toUpperCase()) && existeJugada(nombreJugada))
+		{
+			getTablaResults().put(nombreJugada.toUpperCase(), puntos);
+			return true;
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null,"La jugada ya esta anotada o no existe, vuelva a intentarlo");
+			return false;
+		}	
 	}
 	
 
@@ -251,6 +253,16 @@ public class Jugador {
 	{
 		return puntosTachar;
 	}
+
+	public int getVueltaXJugador() {
+		return vueltaXJugador;
+	}
+
+	public void setVueltaXJugador(int vueltaXJugador) {
+		this.vueltaXJugador = vueltaXJugador;
+	}
+	
+	
 	
 	
 	

@@ -6,13 +6,13 @@ import javax.swing.JOptionPane;
 public class Juego  {
 
 	private String inputPrincipal;
-	int vueltaXJugador;
 	private ArrayList<Jugador> listaJugadores;
 	private ArrayList<Jugada> jugadas;
 	private final int SALIR_WHILE_VUELTA=4;
 	private final String SALIR="0";
 	private final int LIMITE_VUELTAS_GENERALES=10;
 	private final int LIMITE_VUELTAS_JUGADOR=3;
+	private int vueltaPrincipal;
 	
 	public Juego()
 	{
@@ -24,30 +24,45 @@ public class Juego  {
 		setInputPrincipal("");
 		setListaJugadores(new ArrayList<>());
 		setJugadas(jugadas);
-		setVueltaXJugador(1);
+		setVueltaPrincipal(1);
 	}
 	
 	public void cargarCantidadJugadores()
 	{
-		String cantidad=JOptionPane.showInputDialog("Ingrese cantidad de jugadores:" + "2,3,4 jugadores");
+		int jugador=1;
+		String cantidad=JOptionPane.showInputDialog("GENERALA"+ "\n" + "Ingrese cantidad de jugadores:" + " 2,3 o 4 jugadores");
 		if(cantidad == null)
 		{
 			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
 			cargarCantidadJugadores();
 		}
-		if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
-		{
-			int cant= Integer.parseInt(cantidad);
-			for(int i=0; i < cant; i++)
-			{
-				String nombre= JOptionPane.showInputDialog("Ingrese el nombre");
-				getListaJugadores().add(new Jugador(nombre));
-			}
-		}
 		else
-		{
-			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
-			cargarCantidadJugadores();
+		{	
+			if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
+			{
+				int cant= Integer.parseInt(cantidad);
+				for(int i=0; i < cant; i++)
+				{
+					String nombre= JOptionPane.showInputDialog("Ingrese el nombre " + "JUGADOR " + jugador);
+					jugador++;
+					if(nombre == null)
+					{
+						JOptionPane.showMessageDialog(null, "Incorrecto,vuelva a intentarlo");
+						i=cant;
+						getListaJugadores().clear();
+						cargarCantidadJugadores();
+					}
+					else
+					{
+						getListaJugadores().add(new Jugador(nombre));
+					}
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+				cargarCantidadJugadores();
+			}
 		}
 	}
 	
@@ -62,7 +77,7 @@ public class Juego  {
     	if(tacharJugada(j))
 		{
 			JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-			setVueltaXJugador(SALIR_WHILE_VUELTA);
+			j.setVueltaXJugador(SALIR_WHILE_VUELTA);
 		}
 		else
 		{
@@ -236,24 +251,23 @@ public class Juego  {
         final String GENERALA_ON="on";
     	final String GENERALA_OFF="off";
     	String generalaGana=GENERALA_OFF;
-    	int vueltaPrincipal=1;
-		while(vueltaPrincipal<=LIMITE_VUELTAS_GENERALES)
+		while(getVueltaPrincipal()<=LIMITE_VUELTAS_GENERALES)
 		{
 			for (int i = 0; i < getListaJugadores().size(); i++) 
 			{
-				setVueltaXJugador(1);
+				getListaJugadores().get(i).setVueltaXJugador(1);
 				getListaJugadores().get(i).borrarListaseparados();
-				while(getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
+				while(getListaJugadores().get(i).getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
 				{   
-					System.out.println("JUGADOR: " + getListaJugadores().get(i).getNombre() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getVueltaXJugador());
+					System.out.println("\n" +"JUGADOR: " + getListaJugadores().get(i).getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getListaJugadores().get(i).getVueltaXJugador());
 					getListaJugadores().get(i).TirarDados();
 					menuReverse(getListaJugadores().get(i));
 					
 					if(generalaServida(getListaJugadores().get(i)))
 					{
-						setVueltaXJugador(SALIR_WHILE_VUELTA);
+						getListaJugadores().get(i).setVueltaXJugador(SALIR_WHILE_VUELTA);
 						i=5;
-						vueltaPrincipal=11;
+						setVueltaPrincipal(11);
 						generalaGana=GENERALA_ON;
 					}
 					else
@@ -265,39 +279,31 @@ public class Juego  {
 							getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
 							getListaJugadores().get(i).borrarListaSeparadosPrevio();
 						}
-						if(getVueltaXJugador() != SALIR_WHILE_VUELTA)
+						if(getListaJugadores().get(i).getVueltaXJugador() != SALIR_WHILE_VUELTA)
 						{
 							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
 							{
-								if(getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
+								if(getListaJugadores().get(i).getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
 								{
-									if(tacharJugada(getListaJugadores().get(i)))
-									{
-										JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-									}
-									else
-									{
-										tacharJugada(getListaJugadores().get(i));
-									}
+									while(!tacharJugada(getListaJugadores().get(i)));
 								}
-								setVueltaXJugador(getVueltaXJugador()+1);
+								getListaJugadores().get(i).setVueltaXJugador(getListaJugadores().get(i).getVueltaXJugador()+1);
 							}
 						}
 					}
 				}   			
 			}
-			vueltaPrincipal++;
+			setVueltaPrincipal(getVueltaPrincipal()+1);
 		}
 		
 		if(generalaGana.equals(GENERALA_OFF))
 		{
 			for (int i = 0; i < getListaJugadores().size(); i++) 
 			{
-				System.out.println(getListaJugadores().get(i).getNombre());
 				getListaJugadores().get(i).imprimirTableResults();
 				System.out.println(getListaJugadores().get(i).getNombre() + ":" + "\n" + "TOTAL: " + getListaJugadores().get(i).sumarResultadosFinales());
 			}
-		    JOptionPane.showMessageDialog(null, "EL GANADOR ES " + ganador().getNombre() + "CON UN TOTAL DE: " + ganador().sumarResultadosFinales());	
+		    JOptionPane.showMessageDialog(null, "EL GANADOR ES " + ganador().getNombre() + " CON UN TOTAL DE: " + ganador().sumarResultadosFinales());	
 		}
     }	
     
@@ -350,7 +356,7 @@ public class Juego  {
 					if(input_dos.equalsIgnoreCase(OK) && j.anotarResultado(sumar.nombre(), sumar.puntos()))
 					{
 						bool=true;
-						setVueltaXJugador(SALIR_WHILE_VUELTA);
+						j.setVueltaXJugador(SALIR_WHILE_VUELTA);
 					}
 					else
 					{
@@ -385,7 +391,7 @@ public class Juego  {
     	{   
     	    if(jugadas.get(i).encontrada(j.getListaDados())) 
     	    {
-    	    	if(jugadas.get(i).nombre().equalsIgnoreCase("generala") && getVueltaXJugador()==1)
+    	    	if(jugadas.get(i).nombre().equalsIgnoreCase("generala") && j.getVueltaXJugador()==1)
     	    	{
     	    		JOptionPane.showMessageDialog(null, j.getNombre() +" GANASTE!!!" + "OBTUVISTE "+ jugadas.get(i).nombre());
     	    		bool= true;
@@ -410,7 +416,7 @@ public class Juego  {
     		int puntos=0;
     	    if(jugadas.get(i).encontrada(j.getListaDados())) 
     	    {
-    	    	if(getVueltaXJugador() == 1)
+    	    	if(j.getVueltaXJugador() == 1)
     	    	{
     	    		puntos=5;
     	    	}
@@ -420,7 +426,7 @@ public class Juego  {
     	    	    	if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos() + puntos))
     	    	    	{
     	    	    		JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    	     			    setVueltaXJugador(SALIR_WHILE_VUELTA);
+    	     			    j.setVueltaXJugador(SALIR_WHILE_VUELTA);
     	     			    bool= true;
     	     		    }
     	    	    	else
@@ -462,7 +468,7 @@ public class Juego  {
     				if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
     				{
     					JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    					setVueltaXJugador(SALIR_WHILE_VUELTA);
+    					j.setVueltaXJugador(SALIR_WHILE_VUELTA);
     					bool= true;
     				}
     				else
@@ -484,7 +490,6 @@ public class Juego  {
     			}
     	    }
     	}
-    	
      return bool;
     }
     
@@ -518,14 +523,15 @@ public class Juego  {
 		this.jugadas = jugadas;
 	}
 
-	public int getVueltaXJugador() 
-	{
-		return vueltaXJugador;
+	public int getVueltaPrincipal() {
+		return vueltaPrincipal;
 	}
 
-	public void setVueltaXJugador(int vueltaXJugador) 
-	{
-		this.vueltaXJugador = vueltaXJugador;
+	public void setVueltaPrincipal(int vueltaPrincipal) {
+		this.vueltaPrincipal = vueltaPrincipal;
 	}
+	
+	
+
 	
 }

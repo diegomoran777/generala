@@ -181,6 +181,7 @@ public class Juego  {
 	    }
 	}
 	
+	//Menu donde se elige que opcion realizar.
 	public void menuPrincipal()
 	{
 		String input= JOptionPane.showInputDialog(
@@ -202,7 +203,8 @@ public class Juego  {
 			setInputPrincipal(input);
 		}
 	}
-		
+	
+	//Recibe un jugador, obtiene el input del menu principal y busca la opcion correcta. 
 	public void seleccionarMenu(Jugador j) 
 	{
 		final String SEPARAR_DADO="1";
@@ -394,7 +396,8 @@ public class Juego  {
 		return bool;
     }
     
-    
+    //
+    //Verifica si se concreto una generala en el primer tiro, de lo contrario sigue el juego.
     public boolean generalaServida(Jugador j)
     {
     	boolean bool=false;

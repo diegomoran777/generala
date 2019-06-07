@@ -181,6 +181,7 @@ public class Juego  {
 	    }
 	}
 	
+	//Verifica que el dato ingresado sea correcto, de lo contrario vuelve a iniciar la funcion.
 	public void menuPrincipal()
 	{
 		String input= JOptionPane.showInputDialog(

@@ -74,7 +74,7 @@ public class Juego  {
 		}
 	}
 	
-	//
+	//Permite seleccionar una jugada para tachar.
 	public boolean tacharJugada(Jugador j) 
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
@@ -96,6 +96,7 @@ public class Juego  {
 		}
     }
     
+    //
     public void menuReverse(Jugador j)
     {
     	final String SI="si";

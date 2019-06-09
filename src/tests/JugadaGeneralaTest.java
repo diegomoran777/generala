@@ -12,7 +12,11 @@ import generala.JugadaGenerala;
 
 
 
+
+public class JugadaGeneralaTest {
+
 class JugadaGeneralaTest {
+
       
 	
 	

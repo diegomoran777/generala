@@ -1,7 +1,6 @@
-
-import java.util.ArrayList;
-
+package generala;
 import java.util.Collections;
+import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,7 +33,7 @@ public class JugadaEscalera implements Jugada
 	}
         
     @Override
-    public boolean encontrada(ArrayList<Integer> dados) 
+    public boolean encontrada(List<Integer> dados) 
     {
     	//validamos que el tamaño de la lista de dados no sea menor a 5
     	if(dados.size() < 5)

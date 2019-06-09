@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class Juego  {
 
 	private String inputPrincipal;
-	private ArrayList<Jugador> listaJugadores;
+	private ArrayList<Object> listaJugadores;
 	private ArrayList<Jugada> jugadas;
 	private final int SALIR_WHILE_VUELTA=4;
 	private final String SALIR="0";
@@ -493,14 +493,14 @@ public class Juego  {
      return bool;
     }
     
-	public ArrayList<Jugador> getListaJugadores() 
+	public ArrayList<Object> getListaJugadores() 
 	{
 		return listaJugadores;
 	}
 
-	public void setListaJugadores(ArrayList<Jugador> listaJugadores) 
+	public void setListaJugadores(ArrayList<Object> arrayList) 
 	{
-		this.listaJugadores = listaJugadores;
+		this.listaJugadores = arrayList;
 	}
 
 	public String getInputPrincipal() 

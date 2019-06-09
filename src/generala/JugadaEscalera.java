@@ -1,4 +1,8 @@
 package generala;
+
+import generala.Jugada;
+import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +39,7 @@ public class JugadaEscalera implements Jugada
     @Override
     public boolean encontrada(List<Integer> dados) 
     {
-    	//validamos que el tama�o de la lista de dados no sea menor a 5
+    	//validamos que el tama�o de la lista de dados no sea menor a 5
     	if(dados.size() < 5)
     	{
     		return false;
@@ -45,7 +49,7 @@ public class JugadaEscalera implements Jugada
     	for(int i = 1; i < dados.size(); i++)
     	{//para que haya escalera necesitamos una progresion de numeros del 1-5 o del 2-6
     		if(dados.get(i) - dados.get(i-1) != 1)
-    		{
+    		{//este if filtra que los numeros NO hagan una progresión de uno en uno(no formarían escalera)
     			return false;
     		}
     	}

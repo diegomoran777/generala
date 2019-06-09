@@ -14,6 +14,7 @@ public class Juego  {
 	private final int LIMITE_VUELTAS_JUGADOR=3;
 	private int vueltaPrincipal;
 	
+	
 	public Juego()
 	{
 		jugadas=new ArrayList<Jugada>();
@@ -26,11 +27,15 @@ public class Juego  {
 		setJugadas(jugadas);
 		setVueltaPrincipal(1);
 	}
-	
+
+	//Pregunta la cantidad de jugadores para iniciar el juego.
 	public void cargarCantidadJugadores()
 	{
+		
 		int jugador=1;
 		String cantidad=JOptionPane.showInputDialog("GENERALA"+ "\n" + "Ingrese cantidad de jugadores:" + " 2,3 o 4 jugadores");
+		
+		//Verifica si hay un valor nulo, que vuelva a cargar la funcion.
 		if(cantidad == null)
 		{
 			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
@@ -38,6 +43,9 @@ public class Juego  {
 		}
 		else
 		{	
+			/*Verifica que el valor ingresado es correcto o esta en el rango de 2 a 4.
+			Luego te pide ingresar el nombre de cada jugador y agrega a una lista de jugadores, los jugadores recien instanciados.*/
+			
 			if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 			{
 				int cant= Integer.parseInt(cantidad);
@@ -66,12 +74,14 @@ public class Juego  {
 		}
 	}
 	
+	//Permite seleccionar una jugada para tachar.
 	public boolean tacharJugada(Jugador j) 
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
+	//Indica si la jugada esta tachada o disponible
     public void menuTachar(Jugador j)  
     {
     	if(tacharJugada(j))
@@ -86,6 +96,7 @@ public class Juego  {
 			seleccionarMenu(j);
 		}
     }
+    
     
     public void menuReverse(Jugador j)
     {
@@ -110,6 +121,8 @@ public class Juego  {
     	}
     }
 	
+    /*Permite elegir si se quiere apartar dados para beneficiarse con la proxima jugada o volver al menu principal.
+    	Si decide separar dados, los mismos seran guardados en una lista previa para poder reincorporarlos, en el caso de querer hacerlo.*/
 	public void menuSeparar(Jugador j)
 	{
 		if(j.getListaDados().size( )== 0)
@@ -170,6 +183,7 @@ public class Juego  {
 	    }
 	}
 	
+	//Menu donde se elige que opcion realizar.
 	public void menuPrincipal()
 	{
 		String input= JOptionPane.showInputDialog(
@@ -191,7 +205,8 @@ public class Juego  {
 			setInputPrincipal(input);
 		}
 	}
-		
+	
+	//Recibe un jugador, obtiene el input del menu principal y busca la opcion correcta. 
 	public void seleccionarMenu(Jugador j) 
 	{
 		final String SEPARAR_DADO="1";
@@ -383,7 +398,8 @@ public class Juego  {
 		return bool;
     }
     
-    
+    //
+    //Verifica si se concreto una generala en el primer tiro, de lo contrario sigue el juego.
     public boolean generalaServida(Jugador j)
     {
     	boolean bool=false;

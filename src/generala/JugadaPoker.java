@@ -1,9 +1,5 @@
 package generala;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
-
->>>>>>> d294342b39df5730d92848b2beb2cf33e4c04fc5
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,6 +32,7 @@ public class JugadaPoker implements Jugada{
 		{
 			return false;
 		}
+		Collections.sort(dados);
 		Set<Integer> sinrepetidos= new HashSet<>();
 		for(Integer i : dados) {
 			sinrepetidos.add(i);

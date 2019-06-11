@@ -1,9 +1,6 @@
 package generala;
-<<<<<<< HEAD
 import java.util.ArrayList;
 
-=======
->>>>>>> d294342b39df5730d92848b2beb2cf33e4c04fc5
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,28 +37,11 @@ public class JugadaFull implements Jugada
 		{
 			return false;
 		}
-		Collections.sort(dados);
-		//En el set se guardan los numeros sin repetirse:
-		Set<Integer> repetido = new HashSet<>();
-		for (int i = 0; i < dados.size(); i++)
-		{
-			repetido.add(i);
-            //obtengo la cantidad de veces que aparece cadavalor para filtrar
-            int freq = Collections.frequency(dados, dados.get(i));
-            //si un n aparece 4 veces ya no es jugada Full
-             if(freq == 3)
-             {
-            	 return false;
-             }
-        }
-             /*Para que haya Full debe haber 1 n repetido 3 veces y otro n repetido 2 veces
-             por lo tanto en el Set repetido solo deberia haber 2 numeros*/
-            if(repetido.size() != 2)
-            {
-            	return false;
-            }
-     
-            //Si hay mass de dos numeros almacenados, no hay Full, caso contrario, devuelve true
-            return true;
+		Collections.sort(dados); 
+		Set<Integer> sinrepetidos= new HashSet<>();
+		for(Integer i : dados) {
+			sinrepetidos.add(i);
+		}
+		return Collections.frequency(dados, dados.get(2)) == 3 && sinrepetidos.size() == 2;
     }
 }

@@ -36,6 +36,11 @@ public class JugadaFull implements Jugada
 	@Override
     public boolean encontrada(List<Integer> dados) 
     {   
+		if (dados.size() < 5) 
+		{
+			return false;
+		}
+		Collections.sort(dados);
 		//En el set se guardan los numeros sin repetirse:
 		Set<Integer> repetido = new HashSet<>();
 		for (int i = 0; i < dados.size(); i++)
@@ -44,7 +49,7 @@ public class JugadaFull implements Jugada
             //obtengo la cantidad de veces que aparece cadavalor para filtrar
             int freq = Collections.frequency(dados, dados.get(i));
             //si un n aparece 4 veces ya no es jugada Full
-             if(freq == 4)
+             if(freq == 3)
              {
             	 return false;
              }

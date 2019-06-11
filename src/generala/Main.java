@@ -1,8 +1,12 @@
 package generala;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.ArrayList;
 =======
 >>>>>>> d294342b39df5730d92848b2beb2cf33e4c04fc5
+=======
+import java.util.ArrayList;
+>>>>>>> master
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

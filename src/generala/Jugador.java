@@ -6,8 +6,6 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 public class Jugador {

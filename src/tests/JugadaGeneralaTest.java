@@ -1,4 +1,4 @@
-package generala;
+package tests;
 
 
 import java.util.ArrayList;
@@ -7,9 +7,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
+import generala.Jugada;
+import generala.JugadaGenerala;
 
+
+
+
+public class JugadaGeneralaTest {
 
 class JugadaGeneralaTest {
+
       
 	
 	

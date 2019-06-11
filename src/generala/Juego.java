@@ -545,9 +545,5 @@ public class Juego  {
 
 	public void setVueltaPrincipal(int vueltaPrincipal) {
 		this.vueltaPrincipal = vueltaPrincipal;
-	}
-	
-	
-
-	
+	}	
 }

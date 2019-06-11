@@ -1,14 +1,19 @@
 
 package tests;
 
+import java.awt.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 
+import generala.ArrayList;
 import generala.JugadaFull;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.Assert.*;
 
 /**
@@ -29,9 +34,16 @@ public class JugadaFullTest {
     }
     
     @Before
-    public void setUp() 
-    {
-        JugadaFull FullTest = new JugadaFull();
+    public void setUp() {
+    	prueba = new ArrayList<Integer>();
+    	prueba.add(1);
+    	prueba.add(1);
+    	prueba.add(1);
+    	prueba.add(2);
+    	prueba.add(2);
+        FullTest = new JugadaFull();
+        
+      
     }
     
     @After
@@ -57,30 +69,28 @@ public class JugadaFullTest {
     public void testPuntos()
     {
     	assertEquals(30, FullTest.puntos());
-    	assertNotEquals(35, FullTest.puntos());
-    	assertNotEquals(-35, FullTest.puntos());
+    	
+    	
+    
     }
 
-	private void assertNotEquals(int i, int puntos) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Test
 	public void testEncontrada()
-	{	
+	{	 
+		
 	assertFalse(FullTest.encontrada((Arrays.asList(1, 2, 3, 4, 5))));
+	assertTrue(FullTest.encontrada((Arrays.asList(5, 5, 1, 1, 5))));
+	//assertTrue(FullTest.encontrada(prueba));
+	
 
 	
 		
 		
 	}
 	
-	
-
-	
-	
 	JugadaFull FullTest;
+	private ArrayList<Integer> prueba;
 
 }
 

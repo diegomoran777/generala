@@ -1,11 +1,14 @@
 package tests;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import generala.Jugada;
 import generala.JugadaGenerala;
@@ -18,6 +21,7 @@ public class JugadaGeneralaTest {
 class JugadaGeneralaTest {
 
       
+	@BeforeEach
 	
 	
 	  @Test
@@ -28,6 +32,13 @@ class JugadaGeneralaTest {
 	        assertFalse(j.encontrada((ArrayList<Integer>) Arrays.asList(3, 2, 4, 5, 2)));
 	    }
 	}
+
+
+
+
+
+
+
 
 
 

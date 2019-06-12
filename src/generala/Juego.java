@@ -532,7 +532,7 @@ public class Juego implements ObjetoJasoneable  {
 
 	public void setVueltaPrincipal(int vueltaPrincipal) {
 		this.vueltaPrincipal = vueltaPrincipal;
-	}
+	}	
 
 	@Override
 	public JSONObject pasarAJson() 
@@ -548,8 +548,5 @@ public class Juego implements ObjetoJasoneable  {
 		jjuego.put("vueltaPrincipal", this.getVueltaPrincipal());
 		return jjuego;
 	}
-	
-	
-
 	
 }

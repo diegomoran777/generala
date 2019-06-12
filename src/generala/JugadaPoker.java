@@ -1,5 +1,8 @@
 package generala;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,7 +20,7 @@ public class JugadaPoker implements Jugada{
 	@Override
 	public String nombre() 
 	{
-		return "Poker";
+		return "poker";
 	}
 
 	@Override
@@ -39,6 +42,4 @@ public class JugadaPoker implements Jugada{
 		}
 		return Collections.frequency(dados, dados.get(2)) == 4 && sinrepetidos.size() == 2;
 	}
-	 
-
 }

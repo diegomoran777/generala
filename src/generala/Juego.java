@@ -1,4 +1,12 @@
 package generala;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -75,7 +83,7 @@ public class Juego implements ObjetoJasoneable  {
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
-    public void menuTachar(Jugador j)  
+    public void menuTachar(Jugador j) throws IOException  
     {
     	if(tacharJugada(j))
 		{
@@ -183,6 +191,7 @@ public class Juego implements ObjetoJasoneable  {
                 "5-SAVE" + "\n" +
                 "6-LOAD" + "\n" +
                 "7-IMPRIMIR TABLA RESULTADOS" + "\n" +
+                "8-IMPRIMIR TABLA RESULTADOS" + "\n" +
                 "0-SALIR O CONTINUAR");
 		if(input == null)
 		{
@@ -195,7 +204,7 @@ public class Juego implements ObjetoJasoneable  {
 		}
 	}
 		
-	public void seleccionarMenu(Jugador j) 
+	public void seleccionarMenu(Jugador j) throws IOException 
 	{
 		final String SEPARAR_DADO="1";
 		final String REINCORPORAR_DADO="2";
@@ -204,6 +213,7 @@ public class Juego implements ObjetoJasoneable  {
 		final String SAVE_JUEGO="5";
 		final String LOAD_JUEGO="6";
 		final String IMPRIMIR_TABLA_RESULTADOS="7";
+		final String MOSTRAR_DADOS= "8";
 		switch(getInputPrincipal()) {
 		case SEPARAR_DADO: 
 			menuSeparar(j);
@@ -222,7 +232,7 @@ public class Juego implements ObjetoJasoneable  {
         	menuTachar(j);
     	    break;
         case SAVE_JUEGO:
-      	
+        	save(j);
       	    break;
         case LOAD_JUEGO:
         	
@@ -231,10 +241,12 @@ public class Juego implements ObjetoJasoneable  {
         	j.imprimirTableResults();
         	menuPrincipal();
 			seleccionarMenu(j);
+      	    break;
+      	    case MOSTRAR_DADOS:
+      	    System.out.println("\n" +"JUGADOR: " + j.getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + j.getVueltaXJugador());
+      	    j.imprimirDados();
       	    break;    
         case SALIR:
-        	//j.getSeparados().addAll(j.getSeparadosPrevio());
-        	//j.borrarListaSeparadosPrevio();
     	    break;    
   	    default:
   		   JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
@@ -248,7 +260,7 @@ public class Juego implements ObjetoJasoneable  {
 		return input;
 	}
 	
-    public void Jugar() 
+    public void Jugar() throws IOException 
     {
     	cargarCantidadJugadores();
         final String GENERALA_ON="on";
@@ -278,7 +290,12 @@ public class Juego implements ObjetoJasoneable  {
 						if(encontrarJugada(getListaJugadores().get(i)) != true)
 						{
 							menuPrincipal();
-							seleccionarMenu(getListaJugadores().get(i));
+							try {
+								seleccionarMenu(getListaJugadores().get(i));
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
 							getListaJugadores().get(i).borrarListaSeparadosPrevio();
 						}
@@ -327,7 +344,7 @@ public class Juego implements ObjetoJasoneable  {
     	return ganador;
     }
     
-    public boolean menuSumar(Jugador j) 
+    public boolean menuSumar(Jugador j) throws IOException 
     {
     	boolean bool=false;
     	final String OK="SI";
@@ -544,12 +561,74 @@ public class Juego implements ObjetoJasoneable  {
 			jjugadores.put(j.pasarAJson());
 		}
 		jjuego.put("jugadores", jjugadores);
-		jjuego.put("jugadas", this.getJugadas());
 		jjuego.put("vueltaPrincipal", this.getVueltaPrincipal());
 		return jjuego;
 	}
 	
+	public Juego(JSONObject JsonObjJuego)
+	{
+		jugadas=new ArrayList<Jugada>();
+		jugadas.add(new JugadaGenerala());
+		jugadas.add(new JugadaPoker());
+		jugadas.add(new JugadaFull());
+		jugadas.add(new JugadaEscalera());
+		this.setVueltaPrincipal(JsonObjJuego.getInt("vueltaPrincipal"));
+		setInputPrincipal("");
+		setJugadas(jugadas);
+		JSONArray jugadores = JsonObjJuego.getJSONArray("jugadores");
+		for(int i = 0; i < jugadores.length(); i++)
+		{
+			this.listaJugadores.add(new Jugador(jugadores.getJSONObject(i)));
+		}
+		setListaJugadores(listaJugadores);
+	}
 	
-
+	public void save(Jugador j) throws IOException 
+	{
+		String archivo= JOptionPane.showInputDialog("CON QUE NOMBRE QUIERE GUARDAR LA PARTIDA");
+		
+		if(archivo != null)
+		{
+			try { 
+				OutputStream save = new FileOutputStream(archivo + ".json");
+				Writer writer = new OutputStreamWriter(save,"UTF-8");
+				writer.write(this.pasarAJson().toString());
+				writer.close();
+				save.close();
+				} 
+			catch (UnsupportedEncodingException e) 
+			{
+				JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR");
+				save(j);
+			}
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "SALIENDO");
+			menuPrincipal();
+			seleccionarMenu(j);
+		}
+	}
 	
+	public void load()
+	{
+		String archivo = JOptionPane.showInputDialog("INGRESE EL NOMBRE DE LA PARTIDA GUARDADA");
+		if(archivo != null)
+		{
+			try 
+			{
+				JSONObject load =  new JSONObject(new String(Files.readAllBytes(Paths.get(archivo + ".json"))));
+				
+			}
+			catch (Exception e) 
+			{
+				JOptionPane.showMessageDialog(null, "LA PARTIDA NO EXISTE");
+				load();
+			}
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "SALIENDO");
+		}
+	}
 }

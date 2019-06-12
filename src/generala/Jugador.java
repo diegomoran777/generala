@@ -40,6 +40,41 @@ public class Jugador implements ObjetoJasoneable {
 		setSeparadosPrevio(new ArrayList<Integer>());	
 		setVueltaXJugador(1);
 	}
+	
+	public Jugador(JSONObject jsonObjJugador)
+	{
+		this.setNombre(jsonObjJugador.getString("nombre"));
+		JSONArray jseparados = jsonObjJugador.getJSONArray("separados");
+		for (int i = 0; i < jseparados.length(); i++) 
+		{
+			this.separados.add(jseparados.getInt(i));
+		}
+		
+		JSONArray listaDados = jsonObjJugador.getJSONArray("dados");
+		for (int i = 0; i < listaDados.length(); i++)
+		{
+			this.listaDados.add(listaDados.getInt(i));
+		}
+		
+		JSONArray jseparadosPrevio = jsonObjJugador.getJSONArray("separadosPrevio");
+		for (int i = 0; i < jseparadosPrevio.length(); i++) 
+		{
+			this.separadosPrevio.add(jseparadosPrevio.getInt(i));
+		}
+		
+		this.setVueltaXJugador(jsonObjJugador.getInt("vueltaXJugador"));
+		
+		Map<String,Integer> results= new TreeMap<String,Integer>();
+		JSONObject mapa = jsonObjJugador.getJSONObject("tablaResult");
+	    Iterator<String> iter = mapa.keys();
+		while (iter.hasNext())
+		{
+			String key = (String) iter.next();
+			Integer value = mapa.getInt(key);
+			results.put(key,value);
+		}
+		this.setTablaResults(results);
+	}
 
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
 	{
@@ -275,37 +310,7 @@ public class Jugador implements ObjetoJasoneable {
 		return jugador;
 	}
 	
-	public void loadJugador(JSONObject jsonObjJugador)
-	{
-		this.setNombre(jsonObjJugador.getString("nombre"));
-		JSONArray jseparados = jsonObjJugador.getJSONArray("separados");
-		for (int i = 0; i < jseparados.length(); i++) 
-		{
-			this.separados.add(jseparados.getInt(i));
-		}
-		
-		JSONArray listaDados = jsonObjJugador.getJSONArray("dados");
-		for (int i = 0; i < listaDados.length(); i++)
-		{
-			this.listaDados.add(listaDados.getInt(i));
-		}
-		
-		JSONArray jseparadosPrevio = jsonObjJugador.getJSONArray("separadosPrevio");
-		for (int i = 0; i < jseparadosPrevio.length(); i++) 
-		{
-			this.separadosPrevio.add(jseparadosPrevio.getInt(i));
-		}
-		
-		this.setVueltaXJugador(jsonObjJugador.getInt("vueltaXJugador"));
-		
-		JSONObject tabla =  jsonObjJugador.getJSONObject("tablaResult");
-		for (int i = 0; i < tabla.length(); i++) {
-			
-		}
-		        
-		
-		
-	}
+	
 	
 	
 	

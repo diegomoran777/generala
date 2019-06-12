@@ -1,14 +1,17 @@
 package generala;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
-public class Jugador {
+public class Jugador implements ObjetoJasoneable {
 
 	private String nombre;
 	private ArrayList<Integer> separados;
@@ -20,16 +23,16 @@ public class Jugador {
 	
 	public Jugador(String nombre)
 	{
-		tablaResults.put("GENERALA",null);
-		tablaResults.put("POKER",null);
-		tablaResults.put("FULL",null);
-		tablaResults.put("ESCALERA",null);
-		tablaResults.put("6",null);
-		tablaResults.put("5",null);
-		tablaResults.put("4",null);
-		tablaResults.put("3",null);
-		tablaResults.put("2",null);
-		tablaResults.put("1",null);
+		tablaResults.put("GENERALA",-1);
+		tablaResults.put("POKER",-1);
+		tablaResults.put("FULL",-1);
+		tablaResults.put("ESCALERA",-1);
+		tablaResults.put("6",-1);
+		tablaResults.put("5",-1);
+		tablaResults.put("4",-1);
+		tablaResults.put("3",-1);
+		tablaResults.put("2",-1);
+		tablaResults.put("1",-1);
 		setNombre(nombre);
 		setListaDados(new ArrayList<Integer>());
 		setSeparados(new ArrayList<Integer>());
@@ -174,7 +177,7 @@ public class Jugador {
 	public boolean jugadaDisponible(String nombreJugada) 
 	{
 		Integer jugada= getTablaResults().get(nombreJugada);
-		return jugada == null;
+		return jugada == -1;
 	}
 	
 	public boolean existeJugada(String input)
@@ -258,6 +261,50 @@ public class Jugador {
 
 	public void setVueltaXJugador(int vueltaXJugador) {
 		this.vueltaXJugador = vueltaXJugador;
+	}
+
+	@Override
+	public JSONObject pasarAJson() {
+		JSONObject jugador= new JSONObject();
+		jugador.put("nombre", this.getNombre());
+		jugador.put("separados", this.getSeparados());
+		jugador.put("separadosPrevio", this.getSeparadosPrevio());
+		jugador.put("dados", this.getListaDados());
+		jugador.put("tablaResult", this.getTablaResults());
+		jugador.put("vueltaXJugador", this.getVueltaXJugador());
+		return jugador;
+	}
+	
+	public void loadJugador(JSONObject jsonObjJugador)
+	{
+		this.setNombre(jsonObjJugador.getString("nombre"));
+		JSONArray jseparados = jsonObjJugador.getJSONArray("separados");
+		for (int i = 0; i < jseparados.length(); i++) 
+		{
+			this.separados.add(jseparados.getInt(i));
+		}
+		
+		JSONArray listaDados = jsonObjJugador.getJSONArray("dados");
+		for (int i = 0; i < listaDados.length(); i++)
+		{
+			this.listaDados.add(listaDados.getInt(i));
+		}
+		
+		JSONArray jseparadosPrevio = jsonObjJugador.getJSONArray("separadosPrevio");
+		for (int i = 0; i < jseparadosPrevio.length(); i++) 
+		{
+			this.separadosPrevio.add(jseparadosPrevio.getInt(i));
+		}
+		
+		this.setVueltaXJugador(jsonObjJugador.getInt("vueltaXJugador"));
+		
+		JSONObject tabla =  jsonObjJugador.getJSONObject("tablaResult");
+		for (int i = 0; i < tabla.length(); i++) {
+			
+		}
+		        
+		
+		
 	}
 	
 	

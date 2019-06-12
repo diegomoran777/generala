@@ -1,6 +1,7 @@
 package generala;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class JugadaDado implements Jugada {
 
@@ -27,7 +28,7 @@ public class JugadaDado implements Jugada {
 	}
 	
 	@Override
-	public boolean encontrada(ArrayList<Integer> dados) {
+	public boolean encontrada(List<Integer> dados) {
 	
 		this.m_puntos = 0;
 

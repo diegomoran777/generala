@@ -80,6 +80,7 @@ public class Juego implements ObjetoJasoneable  {
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
+	//Indica si la jugada esta tachada o disponible.
     public void menuTachar(Jugador j)  
     {
     	if(tacharJugada(j))

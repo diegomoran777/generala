@@ -119,6 +119,8 @@ public class Juego implements ObjetoJasoneable  {
     	}
     }
 	
+    /*Permite elegir si se quiere apartar dados para beneficiarse con la proxima jugada o volver al menu principal.
+	Si decide separar dados, los mismos seran guardados en una lista previa para poder reincorporarlos, en el caso de querer hacerlo.*/
 	public void menuSeparar(Jugador j)
 	{
 		if(j.getListaDados().size( )== 0)

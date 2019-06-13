@@ -466,7 +466,7 @@ public class Juego implements ObjetoJasoneable  {
     	return bool;
     }
     
-    public boolean encontrarJugadaSerparados(Jugador j)
+    public boolean encontrarJugadaSeparados(Jugador j)
     {
     	final String ANOTAR="1";
     	final String SALIR_SIN_ANOTAR="2";

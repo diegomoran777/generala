@@ -181,6 +181,7 @@ public class Juego implements ObjetoJasoneable  {
 	    }
 	}
 	
+	//Menu donde se elige que opcion realizar.
 	public void menuPrincipal()
 	{
 		String input= JOptionPane.showInputDialog(

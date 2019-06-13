@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Juego implements ObjetoJasoneable  {
 
 	private String inputPrincipal;
@@ -70,6 +73,7 @@ public class Juego implements ObjetoJasoneable  {
 		}
 	}
 	
+	//Permite seleccionar una jugada para tachar.
 	public boolean tacharJugada(Jugador j) 
 	{
 		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");

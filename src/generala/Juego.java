@@ -199,7 +199,7 @@ public class Juego implements ObjetoJasoneable  {
                 "5-SAVE" + "\n" +
                 "6-LOAD" + "\n" +
                 "7-IMPRIMIR TABLA RESULTADOS" + "\n" +
-                "8-IMPRIMIR TABLA RESULTADOS" + "\n" +
+                "8-IMPRIMIR DADOS" + "\n" +
                 "0-SALIR O CONTINUAR");
 		if(input == null)
 		{
@@ -241,7 +241,7 @@ public class Juego implements ObjetoJasoneable  {
         	menuTachar(j);
     	    break;
         case SAVE_JUEGO:
-        	save(j);
+        	menuSave(j);
       	    break;
         /*case LOAD_JUEGO:
         	load(); 
@@ -251,12 +251,12 @@ public class Juego implements ObjetoJasoneable  {
         	menuPrincipal();
 			seleccionarMenu(j);
       	    break;
-        /*case MOSTRAR_DADOS:
+        case MOSTRAR_DADOS:
       	    System.out.println("\n" +"JUGADOR: " + j.getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + j.getVueltaXJugador());
       	    j.imprimirDados();
       	    menuPrincipal();
 			seleccionarMenu(j);
-      	    break;*/    
+      	    break;    
         case SALIR:
     	    break;    
   	    default:
@@ -595,28 +595,20 @@ public class Juego implements ObjetoJasoneable  {
 		setListaJugadores(listaJugadores);
 	}
 	
-	public void save(Jugador j) throws IOException 
+	public void menuSave(Jugador j) throws IOException 
 	{
 		String archivo= JOptionPane.showInputDialog("CON QUE NOMBRE QUIERE GUARDAR LA PARTIDA");
 		
-		if(archivo != null)
+		if(archivo == null)
 		{
-			try { 
-				OutputStream save = new FileOutputStream(archivo + ".json");
-				Writer writer = new OutputStreamWriter(save,"UTF-8");
-				writer.write(this.pasarAJson().toString());
-				writer.close();
-				save.close();
-				} 
-			catch (UnsupportedEncodingException e) 
-			{
-				JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR");
-				save(j);
-			}
+			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
+			menuPrincipal();
+			seleccionarMenu(j);
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "SALIENDO");
+			AdministradorPartidas admin = new AdministradorPartidas();
+			admin.salvarPartida(archivo, this.pasarAJson());
 			menuPrincipal();
 			seleccionarMenu(j);
 		}
@@ -636,7 +628,7 @@ public class Juego implements ObjetoJasoneable  {
 			jugar();
 			break;
 		case LOAD:
-			load();
+			menuLoad();
 			break;	
 		default:
 			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
@@ -645,27 +637,29 @@ public class Juego implements ObjetoJasoneable  {
 		}
 	}
 	
-	public void load()
+	public void menuLoad() throws IOException
 	{
 		String archivo = JOptionPane.showInputDialog("INGRESE EL NOMBRE DE LA PARTIDA GUARDADA");
-		if(archivo != null)
+		if(archivo == null)
+		{
+			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
+			menuJugar();
+		}
+		else
 		{
 			try 
 			{
-				JSONObject load =  new JSONObject(new String(Files.readAllBytes(Paths.get(archivo + ".json"))));
-				Juego juegoLoad = new Juego(load);
-				juegoLoad.jugar();
+				AdministradorPartidas admin = new AdministradorPartidas();
+				JSONObject juegoGuardado =  admin.cargarPartida(archivo);
+				Juego generala = new Juego(juegoGuardado);
+				generala.menuJugar(); 
 			}
 			catch (Exception e) 
 			{
-				JOptionPane.showMessageDialog(null, "LA PARTIDA NO EXISTE");
-				load();
+				JOptionPane.showMessageDialog(null, "AH OCURRIDO ALGUN ERROR, VUELVA A INTENTARLO");
+				menuLoad();
 			}
-		}
-		else if(archivo == null) 
-		{
-		
-			JOptionPane.showMessageDialog(null, "SALIENDO");
+			
 		}
 	}
 }

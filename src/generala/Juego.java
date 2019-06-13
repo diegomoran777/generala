@@ -396,7 +396,7 @@ public class Juego implements ObjetoJasoneable  {
 		return bool;
     }
     
-    
+  //Verifica si se concreto una generala en el primer tiro, de lo contrario sigue el juego.
     public boolean generalaServida(Jugador j)
     {
     	boolean bool=false;

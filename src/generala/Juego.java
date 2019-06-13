@@ -203,7 +203,8 @@ public class Juego implements ObjetoJasoneable  {
 			setInputPrincipal(input);
 		}
 	}
-		
+	
+	//Recibe un jugador, obtiene el input del menu principal y busca la opcion correcta.
 	public void seleccionarMenu(Jugador j) 
 	{
 		final String SEPARAR_DADO="1";

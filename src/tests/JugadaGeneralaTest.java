@@ -38,6 +38,7 @@ public class JugadaGeneralaTest {
 	  }
 
 
+	  
  JugadaGenerala j;
  }
 

@@ -37,7 +37,11 @@ public class JugadaGeneralaTest {
 		  assertNotEquals(j.nombre(), "hola");
 	  }
 
-
+	  @Test
+	  public void testPuntos() {
+		  assertEquals(j.puntos(),50);
+		  assertNotEquals(j.puntos(),25);
+	  }
 	  
  JugadaGenerala j;
  }

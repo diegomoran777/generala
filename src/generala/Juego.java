@@ -3,9 +3,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class Juego implements ObjetoJasoneable  {
 
 	private String inputPrincipal;
@@ -29,11 +26,14 @@ public class Juego implements ObjetoJasoneable  {
 		setJugadas(jugadas);
 		setVueltaPrincipal(1);
 	}
-	
+
+	//Pregunta la cantidad de jugadores para iniciar el juego.
 	public void cargarCantidadJugadores()
 	{
 		int jugador=1;
 		String cantidad=JOptionPane.showInputDialog("GENERALA"+ "\n" + "Ingrese cantidad de jugadores:" + " 2,3 o 4 jugadores");
+		
+		//Verifica si hay un valor nulo, que vuelva a cargar la funcion.
 		if(cantidad == null)
 		{
 			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
@@ -41,6 +41,7 @@ public class Juego implements ObjetoJasoneable  {
 		}
 		else
 		{	
+			//Verifica que el valor ingresado es correcto o esta en el rango de 2 a 4
 			if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 			{
 				int cant= Integer.parseInt(cantidad);

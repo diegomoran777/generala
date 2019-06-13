@@ -37,13 +37,12 @@ public class Juego implements ObjetoJasoneable  {
 		setJugadas(jugadas);
 		setVueltaPrincipal(1);
 	}
-
+	
 	//Pregunta la cantidad de jugadores para iniciar el juego.
 	public void cargarCantidadJugadores()
 	{
 		int jugador=1;
 		String cantidad=JOptionPane.showInputDialog("GENERALA"+ "\n" + "Ingrese cantidad de jugadores:" + " 2,3 o 4 jugadores");
-		
 		//Verifica si hay un valor nulo, que vuelva a cargar la funcion.
 		if(cantidad == null)
 		{
@@ -89,7 +88,7 @@ public class Juego implements ObjetoJasoneable  {
 	}
 	
 	//Indica si la jugada esta tachada o disponible.
-    public void menuTachar(Jugador j) throws IOException
+    public void menuTachar(Jugador j) throws IOException  
     {
     	if(tacharJugada(j))
 		{
@@ -212,7 +211,7 @@ public class Juego implements ObjetoJasoneable  {
 			setInputPrincipal(input);
 		}
 	}
-
+		
 	//Recibe un jugador, obtiene el input del menu principal y busca la opcion correcta.
 	public void seleccionarMenu(Jugador j) throws IOException 
 	{
@@ -221,7 +220,7 @@ public class Juego implements ObjetoJasoneable  {
 		final String SUMAR_DADO="3";
 		final String TACHAR_JUGADA="4";
 		final String SAVE_JUEGO="5";
-		final String LOAD_JUEGO="6";
+		//final String LOAD_JUEGO="6";
 		final String IMPRIMIR_TABLA_RESULTADOS="7";
 		final String MOSTRAR_DADOS= "8";
 		switch(getInputPrincipal()) {
@@ -244,18 +243,20 @@ public class Juego implements ObjetoJasoneable  {
         case SAVE_JUEGO:
         	save(j);
       	    break;
-        case LOAD_JUEGO:
-        	
-      	    break;
-        case IMPRIMIR_TABLA_RESULTADOS :
+        /*case LOAD_JUEGO:
+        	load(); 
+      	    break;*/
+        case IMPRIMIR_TABLA_RESULTADOS:
         	j.imprimirTableResults();
         	menuPrincipal();
 			seleccionarMenu(j);
       	    break;
-      	    case MOSTRAR_DADOS:
+        /*case MOSTRAR_DADOS:
       	    System.out.println("\n" +"JUGADOR: " + j.getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + j.getVueltaXJugador());
       	    j.imprimirDados();
-      	    break;    
+      	    menuPrincipal();
+			seleccionarMenu(j);
+      	    break;*/    
         case SALIR:
     	    break;    
   	    default:
@@ -270,7 +271,7 @@ public class Juego implements ObjetoJasoneable  {
 		return input;
 	}
 	
-    public void Jugar() throws IOException 
+    public void jugar() throws IOException 
     {
     	cargarCantidadJugadores();
         final String GENERALA_ON="on";
@@ -300,10 +301,12 @@ public class Juego implements ObjetoJasoneable  {
 						if(encontrarJugada(getListaJugadores().get(i)) != true)
 						{
 							menuPrincipal();
-							try {
+							try 
+							{
 								seleccionarMenu(getListaJugadores().get(i));
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
+							} 
+							catch (Exception e)
+							{
 								e.printStackTrace();
 							}
 							getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
@@ -311,7 +314,7 @@ public class Juego implements ObjetoJasoneable  {
 						}
 						if(getListaJugadores().get(i).getVueltaXJugador() != SALIR_WHILE_VUELTA)
 						{
-							if(encontrarJugadaSerparados(getListaJugadores().get(i)) != true)
+							if(encontrarJugadaSeparados(getListaJugadores().get(i)) != true)
 							{
 								if(getListaJugadores().get(i).getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
 								{
@@ -322,10 +325,9 @@ public class Juego implements ObjetoJasoneable  {
 						}
 					}
 				}   			
-			}
+			}	
 			setVueltaPrincipal(getVueltaPrincipal()+1);
 		}
-		
 		if(generalaGana.equals(GENERALA_OFF))
 		{
 			for (int i = 0; i < getListaJugadores().size(); i++) 
@@ -559,7 +561,7 @@ public class Juego implements ObjetoJasoneable  {
 
 	public void setVueltaPrincipal(int vueltaPrincipal) {
 		this.vueltaPrincipal = vueltaPrincipal;
-	}	
+	}
 
 	@Override
 	public JSONObject pasarAJson() 
@@ -575,7 +577,6 @@ public class Juego implements ObjetoJasoneable  {
 		return jjuego;
 	}
 	
-
 	public Juego(JSONObject JsonObjJuego)
 	{
 		jugadas=new ArrayList<Jugada>();
@@ -621,6 +622,29 @@ public class Juego implements ObjetoJasoneable  {
 		}
 	}
 	
+	public void menuJugar() throws IOException
+	{
+		final String JUGAR = "1";
+		final String LOAD = "2";
+		String archivo = JOptionPane.showInputDialog("GENERALA" + "\n" + "1-JUGAR" + "\n" + "2-LOAD");
+		if(archivo == null)
+		{
+			archivo = "3";
+		}
+		switch (archivo) {
+		case JUGAR:
+			jugar();
+			break;
+		case LOAD:
+			load();
+			break;	
+		default:
+			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+			menuJugar();
+			break;
+		}
+	}
+	
 	public void load()
 	{
 		String archivo = JOptionPane.showInputDialog("INGRESE EL NOMBRE DE LA PARTIDA GUARDADA");
@@ -629,7 +653,8 @@ public class Juego implements ObjetoJasoneable  {
 			try 
 			{
 				JSONObject load =  new JSONObject(new String(Files.readAllBytes(Paths.get(archivo + ".json"))));
-				
+				Juego juegoLoad = new Juego(load);
+				juegoLoad.jugar();
 			}
 			catch (Exception e) 
 			{
@@ -637,11 +662,10 @@ public class Juego implements ObjetoJasoneable  {
 				load();
 			}
 		}
-		else
+		else if(archivo == null) 
 		{
+		
 			JOptionPane.showMessageDialog(null, "SALIENDO");
 		}
 	}
-}
-
 }

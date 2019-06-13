@@ -88,7 +88,8 @@ public class Juego implements ObjetoJasoneable  {
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
-    public void menuTachar(Jugador j) throws IOException  
+	//Indica si la jugada esta tachada o disponible.
+    public void menuTachar(Jugador j) throws IOException
     {
     	if(tacharJugada(j))
 		{
@@ -126,6 +127,8 @@ public class Juego implements ObjetoJasoneable  {
     	}
     }
 	
+    /*Permite elegir si se quiere apartar dados para beneficiarse con la proxima jugada o volver al menu principal.
+	Si decide separar dados, los mismos seran guardados en una lista previa para poder reincorporarlos, en el caso de querer hacerlo.*/
 	public void menuSeparar(Jugador j)
 	{
 		if(j.getListaDados().size( )== 0)
@@ -186,6 +189,7 @@ public class Juego implements ObjetoJasoneable  {
 	    }
 	}
 	
+	//Menu donde se elige que opcion realizar.
 	public void menuPrincipal()
 	{
 		String input= JOptionPane.showInputDialog(
@@ -208,7 +212,8 @@ public class Juego implements ObjetoJasoneable  {
 			setInputPrincipal(input);
 		}
 	}
-		
+
+	//Recibe un jugador, obtiene el input del menu principal y busca la opcion correcta.
 	public void seleccionarMenu(Jugador j) throws IOException 
 	{
 		final String SEPARAR_DADO="1";
@@ -408,7 +413,7 @@ public class Juego implements ObjetoJasoneable  {
 		return bool;
     }
     
-    
+  //Verifica si se concreto una generala en el primer tiro, de lo contrario sigue el juego.
     public boolean generalaServida(Jugador j)
     {
     	boolean bool=false;
@@ -478,7 +483,7 @@ public class Juego implements ObjetoJasoneable  {
     	return bool;
     }
     
-    public boolean encontrarJugadaSerparados(Jugador j)
+    public boolean encontrarJugadaSeparados(Jugador j)
     {
     	final String ANOTAR="1";
     	final String SALIR_SIN_ANOTAR="2";

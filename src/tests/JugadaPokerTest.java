@@ -42,6 +42,7 @@ class JugadaPokerTest {
 	  
 	  public void testPuntos() {
 		  assertEquals(p.puntos(), 40);
+		  assertNotEquals(p.puntos(),10);
 	  }
 	  
 	  JugadaPoker p;

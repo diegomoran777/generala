@@ -1,22 +1,21 @@
 package tests;
 
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
 
-import org.junit.Test;
+import generala.Jugador;
 
 public class JugadorTest {
 
-	@Test
-	public void test() {
+	@BeforeEach
+	public void setUp() {
+		jug = new Jugador("");
+		
+	}
 
-import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
 
-@Test    
-class JugadorTest test(){
-
-}
+	
+	Jugador jug;
 	
  }

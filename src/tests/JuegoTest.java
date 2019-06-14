@@ -23,6 +23,13 @@ class JuegoTest {
 		juego.getListaJugadores().add(rocio);
 		assertEquals(juego.getListaJugadores().size(),2);			
 	}
+	
+
+	@Test
+	void cargarCantidadJugadores() {
+		juego.cargarCantidadJugadores();
+		assertEquals(juego.getListaJugadores().size(),2);
+	}
 
  Juego juego;
 }

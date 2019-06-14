@@ -120,10 +120,26 @@ public class JugadorTest {
 		
 	}
 	@Test
-	public void TirarDados() {
+	public void TirarDadosTest() {
 		jug.TirarDados();
 		assertTrue(jug.getListaDados().size()==5);
 	}
+	@Test 
+	public void sumarResultadosFinalesTest() {
+		jug.getTablaResults().clear();
+		jug.getTablaResults().put("generala", 10);
+		jug.getTablaResults().put("escalera", 20);
+		jug.getTablaResults().put("poker", 20);
+		assertTrue(jug.sumarResultadosFinales()==50);
+	}
+	@Test
+	public void existeJugadaTest() {
+		jug.getTablaResults().clear();
+		jug.getTablaResults().put("generala", 10);
+		assertTrue(jug.existeJugada("generala"));
+		assertFalse(jug.existeJugada("escalera"));
+	}
+	
 	@Test
 	public void pasarAJson()
 	{

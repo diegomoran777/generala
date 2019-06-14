@@ -1,3 +1,4 @@
+
 package generala;
 
 import java.io.IOException;

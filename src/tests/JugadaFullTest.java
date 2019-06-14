@@ -1,4 +1,5 @@
 
+
 package tests;
 
 import java.awt.List;
@@ -39,8 +40,8 @@ public class JugadaFullTest {
     	prueba.add(1);
     	prueba.add(1);
     	prueba.add(1);
-    	prueba.add(2);
-    	prueba.add(2);
+    	prueba.add(1);
+    	prueba.add(1);
         FullTest = new JugadaFull();
         
       
@@ -78,10 +79,19 @@ public class JugadaFullTest {
 	@Test
 	public void testEncontrada()
 	{	 
-		
-	assertFalse(FullTest.encontrada((Arrays.asList(1, 2, 3, 4, 5))));
-	assertTrue(FullTest.encontrada((Arrays.asList(5, 5, 1, 1, 5))));
-	//assertTrue(FullTest.encontrada(prueba));
+//		
+//	assertFalse(FullTest.encontrada((Arrays.asList(1, 2, 3, 4, 5))));
+//	assertTrue(FullTest.encontrada((Arrays.asList(5, 5, 1, 1, 5))));
+//	assertFalse(FullTest.encontrada((Arrays.asList(-1,1,2,3,4))));
+//	assertFalse(FullTest.encontrada((Arrays.asList(-1,1,1,3,3))));
+//	assertFalse(FullTest.encontrada((Arrays.asList(-1,1,2,3))));
+//	assertTrue(FullTest.encontrada((Arrays.asList())));
+	//assertTrue(FullTest.encontrada((ArrayList<Integer>) Arrays.asList(4, 4, 4, 1, 1)));
+	//assertTrue(FullTest.encontrada((ArrayList<Integer>)Arrays.asList(1,2,3,4,5)));
+	
+
+
+
 	
 
 	

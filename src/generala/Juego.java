@@ -55,10 +55,12 @@ public class Juego implements ObjetoJasoneable  {
 			if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
 			{
 				int cant= Integer.parseInt(cantidad);
+				//Si hay por lo menos un jugador le pide los nombres
 				for(int i=0; i < cant; i++)
 				{
 					String nombre= JOptionPane.showInputDialog("Ingrese el nombre " + "JUGADOR " + jugador);
 					jugador++;
+					//Verifica que haya igresado un nombre
 					if(nombre == null)
 					{
 						JOptionPane.showMessageDialog(null, "Incorrecto,vuelva a intentarlo");
@@ -102,7 +104,8 @@ public class Juego implements ObjetoJasoneable  {
 			seleccionarMenu(j);
 		}
     }
-    
+  //Metodo para tirar al reves los dados
+    //Es una opción que se le ofrece al usuario
     public void menuReverse(Jugador j)
     {
     	final String SI="si";
@@ -157,7 +160,7 @@ public class Juego implements ObjetoJasoneable  {
 		    }
 	    }
 	}
-	
+	//Método que permite recuperar los dados
 	public void menuRecuperar(Jugador j)
 	{
 		if(j.getSeparadosPrevio().size() == 0)
@@ -355,7 +358,7 @@ public class Juego implements ObjetoJasoneable  {
 		}
     	return ganador;
     }
-    
+  //Metodo para sumar los dados
     public boolean menuSumar(Jugador j) throws IOException 
     {
     	boolean bool=false;

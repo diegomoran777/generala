@@ -34,6 +34,12 @@ public class JugadorTest {
 			assertTrue(jug.jugadaDisponible("GENERALA"));
 			assertFalse(jug.jugadaDisponible("ESCALERA"));
 		}
+	 
+	 @Test
+		public void anotarResultado() {
+			assertTrue(jug.anotarResultado("GENERALA", 20));
+		}
+
 	
 	Jugador jug;
 	

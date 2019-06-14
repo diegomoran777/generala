@@ -78,7 +78,7 @@ public class Jugador implements ObjetoJasoneable {
 
 	public boolean recuperarDados(ArrayList<Integer>listaSeparadosPrevio, int input)
 	{
-		return separadosPrevio.contains(input);
+		return listaSeparadosPrevio.contains(input);
 	}
 	
 	public void devolverAListaDeDados(int input)

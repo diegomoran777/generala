@@ -45,18 +45,21 @@ public class Jugador implements ObjetoJasoneable {
 	{
 		this.setNombre(jsonObjJugador.getString("nombre"));
 		JSONArray jseparados = jsonObjJugador.getJSONArray("separados");
+		this.separados = new ArrayList<Integer>();
 		for (int i = 0; i < jseparados.length(); i++) 
 		{
 			this.separados.add(jseparados.getInt(i));
 		}
 		
 		JSONArray listaDados = jsonObjJugador.getJSONArray("dados");
+		 this.listaDados = new ArrayList<Integer>();
 		for (int i = 0; i < listaDados.length(); i++)
 		{
 			this.listaDados.add(listaDados.getInt(i));
 		}
 		
 		JSONArray jseparadosPrevio = jsonObjJugador.getJSONArray("separadosPrevio");
+		this.separadosPrevio = new ArrayList<Integer>();
 		for (int i = 0; i < jseparadosPrevio.length(); i++) 
 		{
 			this.separadosPrevio.add(jseparadosPrevio.getInt(i));
@@ -144,7 +147,7 @@ public class Jugador implements ObjetoJasoneable {
 		getSeparadosPrevio().clear();
 	}
 	
-	public void reverse()
+	public String reverse()
 	{
 		final int RESTA=7;
 		ArrayList<Integer>lista=new ArrayList<Integer>();
@@ -158,43 +161,65 @@ public class Jugador implements ObjetoJasoneable {
 		lista.clear();
 		
 		int dado=0;
+		String texto = "";
 		for(int i = 0; i <getListaDados().size(); i++)
 		{
 			dado++;
-			System.out.println("Reverse" + "Dado: " + dado + " valor " + getListaDados().get(i));
+			texto = texto + "Reverse" + "Dado: " + dado + " valor " + getListaDados().get(i) + "\n";
+			//System.out.println("Reverse" + "Dado: " + dado + " valor " + getListaDados().get(i));
 		}
+		return texto;
 	}
 	
-	public void TirarDados() 
+	public String TirarDados() 
 	{
 		int[ ] lista = {(int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1), (int) Math.floor(Math.random()*(6-1+1)+1)};  
 		borrarListaDados();
 		int dado=0;
+		String texto="";
 		for(int i=0; i < lista.length-separados.size(); i++)
 		{
 			dado++;
-			System.out.println("Dado: " + dado + " valor " + lista[i]);
+			texto = texto + "Dado: " + dado + " valor " + lista[i] + "\n";
+			//System.out.println("Dado: " + dado + " valor " + lista[i]);
 			agregarDado(lista[i]);
 		}
+		return texto;
 	}
 	
-	public void imprimirDados()
+	public String imprimirDados()
 	{
+		String texto="";
 		for (int i = 0; i < getListaDados().size(); i++)
 		{
-			System.out.println( " DADO: " + getListaDados().get(i));
+			texto = texto + " DADO-VALOR: " + getListaDados().get(i) + "\n";
+			//System.out.println( " DADO: " + getListaDados().get(i));
 		}
+		return texto;
 	}
 	
-	public void imprimirTableResults()
+	public String imprimirSeparados()
 	{
+		String texto = "";
+		for (int i = 0; i < getSeparados().size(); i++)
+		{
+			texto=texto + " DADO SEPARADO: " + getSeparados().get(i) + "\n";
+			//System.out.println( " DADO SEPARADO: " + getSeparados().get(i));
+		}
+		return texto;
+	}
+	
+	public String imprimirTableResults()
+	{
+		String texto="";
 		 Set<Map.Entry<String,Integer>>
 		 lista=getTablaResults().entrySet();
-		 System.out.println("TABLA:" + " " +getNombre().toUpperCase());
 		 for (Map.Entry<String,Integer> e:lista) 
 		 {
-			 System.out.println(e.getKey() + " = " + e.getValue());
+			 texto = texto + e.getKey() + " = " + e.getValue() + "\n";
+			 //System.out.println(e.getKey() + " = " + e.getValue());
 		 }
+		 return texto;
 	}
 	
 	public int sumarResultadosFinales()

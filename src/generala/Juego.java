@@ -1,16 +1,11 @@
 package generala;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,6 +19,7 @@ public class Juego implements ObjetoJasoneable  {
 	private final int LIMITE_VUELTAS_GENERALES=10;
 	private final int LIMITE_VUELTAS_JUGADOR=3;
 	private int vueltaPrincipal;
+	private Menu menus = new Menu();
 	
 	public Juego()
 	{
@@ -39,34 +35,32 @@ public class Juego implements ObjetoJasoneable  {
 	}
 	
 	//Pregunta la cantidad de jugadores para iniciar el juego.
-	public void cargarCantidadJugadores()
+	public void cargarCantidadJugadores() throws IOException
 	{
 		int jugador=1;
-		String cantidad=JOptionPane.showInputDialog("GENERALA"+ "\n" + "Ingrese cantidad de jugadores:" + " 2,3 o 4 jugadores");
+		String cantidad=JOptionPane.showInputDialog(menus.MENU_CARGAR_CANT_JUGADORES);
 		//Verifica si hay un valor nulo, que vuelva a cargar la funcion.
 		if(cantidad == null)
 		{
-			JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
-			cargarCantidadJugadores();
+			JOptionPane.showMessageDialog(null, menus.MENU_SALIENDO);
+			menuJugar();
 		}
 		else
 		{	
 			//Verifica que el valor ingresado es correcto o esta en el rango de 2 a 4
-			if(cantidad.equals("2") || cantidad.equals("3") || cantidad.equals("4"))
+			if(cantidad.matches("[2-4]*"))
 			{
 				int cant= Integer.parseInt(cantidad);
-				//Si hay por lo menos un jugador le pide los nombres
 				for(int i=0; i < cant; i++)
 				{
 					String nombre= JOptionPane.showInputDialog("Ingrese el nombre " + "JUGADOR " + jugador);
 					jugador++;
-					//Verifica que haya igresado un nombre
 					if(nombre == null)
 					{
-						JOptionPane.showMessageDialog(null, "Incorrecto,vuelva a intentarlo");
+						JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
 						i=cant;
 						getListaJugadores().clear();
-						cargarCantidadJugadores();
+						menuJugar();
 					}
 					else
 					{
@@ -76,7 +70,7 @@ public class Juego implements ObjetoJasoneable  {
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Cantidad incorrecta,vuelva a intentarlo");
+				JOptionPane.showMessageDialog(null, menus.CANTIDAD_INCORRECTA);
 				cargarCantidadJugadores();
 			}
 		}
@@ -89,44 +83,68 @@ public class Juego implements ObjetoJasoneable  {
 		return input == null ? false : j.anotarResultado(input, Jugador.getPuntostachar());
 	}
 	
+	public void tacharJugar(Jugador j)
+	{
+		String input= JOptionPane.showInputDialog("ESCRIBA EL NOMBRE DE LA JUGADA QUE DESEA TACHAR: ");
+		try 
+		{
+			if(j.anotarResultado(input, Jugador.getPuntostachar()))
+			{
+				JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+			}
+			else
+			{
+				tacharJugar(j);
+			}
+		}
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(null, "NO INGRESO UNA JUGADA, VUELVA A INTENTARLO");
+			tacharJugar(j);
+		}
+	}
+	
 	//Indica si la jugada esta tachada o disponible.
     public void menuTachar(Jugador j) throws IOException  
     {
-    	if(tacharJugada(j))
-		{
-			JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
-			j.setVueltaXJugador(SALIR_WHILE_VUELTA);
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "VOLVIENDO AL MENU PRINCIPAL");
+    	try
+    	{
+    		tacharJugada(j);
+    		JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
+    		j.setVueltaXJugador(SALIR_WHILE_VUELTA);
+		} 
+    	catch (Exception e)
+    	{
+    		JOptionPane.showMessageDialog(null, "NO INGRESO UNA JUGADA, VOLVIENDO AL MENU PRINCIPAL");
 			menuPrincipal();
 			seleccionarMenu(j);
 		}
     }
-  //Metodo para tirar al reves los dados
-    //Es una opción que se le ofrece al usuario
+    
     public void menuReverse(Jugador j)
     {
-    	final String SI="si";
-    	final String NO="no";
-    	String input=JOptionPane.showInputDialog("QUIERE USAR EL VALOR DE LA CARA OPUESTA DE LOS DADOS?:" + "\n" + "1-SI:" + "\n" + "2-NO:" );
-    	if(input.equalsIgnoreCase(SI))
+    	final String SI="1";
+    	final String NO="2";
+    	String input=JOptionPane.showInputDialog(menus.MENU_REVERSE);
+    	try 
     	{
-    		j.reverse();
-    	}
-    	else
+			switch (input) {
+			case SI:
+				JOptionPane.showMessageDialog(null, j.reverse());
+				break;
+			case NO:
+				JOptionPane.showMessageDialog(null, menus.MENU_SALIENDO);
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
+				menuReverse(j);
+				break;
+			}
+		} 
+    	catch (Exception e)
     	{
-    		if(input.equalsIgnoreCase(NO) || input == null)
-    		{
-    			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
-    		}
-    		else
-    		{
-    			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
-    			menuReverse(j);
-    		}
-    	}
+    		JOptionPane.showMessageDialog(null, menus.MENU_SALIENDO);
+		}
     }
 	
     /*Permite elegir si se quiere apartar dados para beneficiarse con la proxima jugada o volver al menu principal.
@@ -135,32 +153,40 @@ public class Juego implements ObjetoJasoneable  {
 	{
 		if(j.getListaDados().size( )== 0)
 		{
-			JOptionPane.showMessageDialog(null, "SE HAN SEPARADO TODOS LOS DADOS, REINCORPORE DADOS O SALGA DEL MENU PRINCIPAL PARA CONTINUAR");
+			JOptionPane.showMessageDialog(null, menus.MENU_TODOS_SEPARADOS);
 		}
 		else
 		{
-			String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SEPARAR:"+ "\n" + j.menuSepararDados()+ "\n" + "salir= 0");
-			if(input.equals(SALIR) || input == null)
+			String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SEPARAR:"+ "\n" + j.menuSepararDados());
+			try
 			{
-				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
-			}
-			else
-			{
-				int input2 =Integer.parseInt(input);
-				if(j.separarDados(j.getListaDados(),input2))
+				if(input.matches("[1-6]*"))
 				{
-					j.agregarSeparadoPrevio(input2);
-					menuSeparar(j);
+					int input2 =Integer.parseInt(input);
+					if(j.separarDados(j.getListaDados(),input2))
+					{
+						j.agregarSeparadoPrevio(input2);
+						menuSeparar(j);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
+					    menuSeparar(j);
+					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
+					JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
 				    menuSeparar(j);
-				}	
-		    }
+				}
+			} 
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(null, menus.MENU_SALIENDO);
+			}
 	    }
 	}
-	//Método que permite recuperar los dados
+	
 	public void menuRecuperar(Jugador j)
 	{
 		if(j.getSeparadosPrevio().size() == 0)
@@ -169,41 +195,40 @@ public class Juego implements ObjetoJasoneable  {
 		}
 		else
 		{
-			String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A REINCORPORAR:"+ "\n" + j.menuRecuperarDados()+ "\n" + "salir= 0");
-			if(input.equals(SALIR) || input == null)
+			String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A REINCORPORAR:"+ "\n" + j.menuRecuperarDados());
+			try 
 			{
-				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
-			}
-			else
-			{
-				int input2=Integer.parseInt(input);
-				if(j.recuperarDados(j.getSeparadosPrevio(), input2))
+				if(input.matches("[1-6]*"))
 				{
-					j.devolverAListaDeDados(input2);
-					menuRecuperar(j);
+					int input2=Integer.parseInt(input);
+					if(j.recuperarDados(j.getSeparadosPrevio(), input2))
+					{
+						j.devolverAListaDeDados(input2);
+						menuRecuperar(j);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
+						menuRecuperar(j);
+					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
+					JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
 					menuRecuperar(j);
-				}	
+				}
+			} 
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(null, menus.MENU_SALIENDO);
 			}
-	    }
+		}
 	}
 	
 	//Menu donde se elige que opcion realizar.
 	public void menuPrincipal()
 	{
-		String input= JOptionPane.showInputDialog(
-				"1-SEPARAR:"+ "\n" + 
-                "2-REINCORPORAR" + "\n" +
-                "3-SUMAR" + "\n" +
-                "4-TACHAR" + "\n" +
-                "5-SAVE" + "\n" +
-                "6-LOAD" + "\n" +
-                "7-IMPRIMIR TABLA RESULTADOS" + "\n" +
-                "8-IMPRIMIR DADOS" + "\n" +
-                "0-SALIR O CONTINUAR");
+		String input= JOptionPane.showInputDialog(menus.MENU_PRINCIPAL);
 		if(input == null)
 		{
 			JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
@@ -223,9 +248,10 @@ public class Juego implements ObjetoJasoneable  {
 		final String SUMAR_DADO="3";
 		final String TACHAR_JUGADA="4";
 		final String SAVE_JUEGO="5";
-		//final String LOAD_JUEGO="6";
+		final String MOSTRAR_SEPARADOS="6";
 		final String IMPRIMIR_TABLA_RESULTADOS="7";
 		final String MOSTRAR_DADOS= "8";
+		final String SALIR_J="9";
 		switch(getInputPrincipal()) {
 		case SEPARAR_DADO: 
 			menuSeparar(j);
@@ -246,24 +272,37 @@ public class Juego implements ObjetoJasoneable  {
         case SAVE_JUEGO:
         	menuSave(j);
       	    break;
-        /*case LOAD_JUEGO:
-        	load(); 
-      	    break;*/
+        case MOSTRAR_SEPARADOS:
+        	 if(j.getSeparados().size()==0)
+        	 {
+        		 JOptionPane.showMessageDialog(null, "AUN NO HAY DADOS SEPARADOS");
+        		 menuPrincipal();
+     			 seleccionarMenu(j);
+        	 }
+        	 else
+        	 {
+        		 JOptionPane.showMessageDialog(null, "JUGADOR: " + j.getNombre() + "\n" + j.imprimirSeparados()); 
+            	 menuPrincipal();
+     			 seleccionarMenu(j); 
+        	 }
+      	    break;
         case IMPRIMIR_TABLA_RESULTADOS:
-        	j.imprimirTableResults();
+        	JOptionPane.showMessageDialog(null, "JUGADOR: " + j.getNombre() + "\n" + j.imprimirTableResults()); 
         	menuPrincipal();
 			seleccionarMenu(j);
       	    break;
         case MOSTRAR_DADOS:
-      	    System.out.println("\n" +"JUGADOR: " + j.getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + j.getVueltaXJugador());
-      	    j.imprimirDados();
+      	    JOptionPane.showMessageDialog(null, "JUGADOR: " + j.getNombre() + "\n" + j.imprimirDados()); 
       	    menuPrincipal();
 			seleccionarMenu(j);
-      	    break;    
+      	    break;
+        case SALIR_J:
+        	System.exit(0);
+    	    break;    
         case SALIR:
     	    break;    
   	    default:
-  		   JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
+  		   JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE_2);
   		   menuPrincipal();
   		   seleccionarMenu(j);
 		}
@@ -276,20 +315,24 @@ public class Juego implements ObjetoJasoneable  {
 	
     public void jugar() throws IOException 
     {
-    	cargarCantidadJugadores();
+    	if(getListaJugadores().size() == 0)
+    	{
+    		cargarCantidadJugadores();
+    	}
         final String GENERALA_ON="on";
     	final String GENERALA_OFF="off";
     	String generalaGana=GENERALA_OFF;
-		while(getVueltaPrincipal()<=LIMITE_VUELTAS_GENERALES)
+		while(getVueltaPrincipal() <= LIMITE_VUELTAS_GENERALES)
 		{ 
 			for (int i = 0; i < getListaJugadores().size(); i++) 
 			{
 				getListaJugadores().get(i).setVueltaXJugador(1);
 				getListaJugadores().get(i).borrarListaseparados();
 				while(getListaJugadores().get(i).getVueltaXJugador()<=LIMITE_VUELTAS_JUGADOR)
-				{   
-					System.out.println("\n" +"JUGADOR: " + getListaJugadores().get(i).getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getListaJugadores().get(i).getVueltaXJugador());
-					getListaJugadores().get(i).TirarDados();
+				{  
+					JOptionPane.showMessageDialog(null, "\n" +"JUGADOR: " + getListaJugadores().get(i).getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getListaJugadores().get(i).getVueltaXJugador() + "\n" + getListaJugadores().get(i).TirarDados());
+					//System.out.println("\n" +"JUGADOR: " + getListaJugadores().get(i).getNombre().toUpperCase() + "\n" + "RONDA: " + vueltaPrincipal + "\n" + "VUELTA: " + getListaJugadores().get(i).getVueltaXJugador());
+					//getListaJugadores().get(i).TirarDados();
 					menuReverse(getListaJugadores().get(i));
 					
 					if(generalaServida(getListaJugadores().get(i)))
@@ -310,7 +353,8 @@ public class Juego implements ObjetoJasoneable  {
 							} 
 							catch (Exception e)
 							{
-								e.printStackTrace();
+								JOptionPane.showMessageDialog(null, "OPCION INCORRECTA");
+								menuPrincipal();
 							}
 							getListaJugadores().get(i).getSeparados().addAll(getListaJugadores().get(i).getSeparadosPrevio());
 							getListaJugadores().get(i).borrarListaSeparadosPrevio();
@@ -321,7 +365,9 @@ public class Juego implements ObjetoJasoneable  {
 							{
 								if(getListaJugadores().get(i).getVueltaXJugador() == LIMITE_VUELTAS_JUGADOR)
 								{
-									while(!tacharJugada(getListaJugadores().get(i)));
+									tacharJugar(getListaJugadores().get(i));
+									//while(!tacharJugada(getListaJugadores().get(i)));
+									//JOptionPane.showMessageDialog(null, "JUGADA TACHADA");
 								}
 								getListaJugadores().get(i).setVueltaXJugador(getListaJugadores().get(i).getVueltaXJugador()+1);
 							}
@@ -336,7 +382,8 @@ public class Juego implements ObjetoJasoneable  {
 			for (int i = 0; i < getListaJugadores().size(); i++) 
 			{
 				getListaJugadores().get(i).imprimirTableResults();
-				System.out.println(getListaJugadores().get(i).getNombre() + ":" + "\n" + "TOTAL: " + getListaJugadores().get(i).sumarResultadosFinales());
+				JOptionPane.showMessageDialog(null, getListaJugadores().get(i).getNombre() + ":" + "\n" + "TOTAL: " + getListaJugadores().get(i).sumarResultadosFinales());
+				//System.out.println(getListaJugadores().get(i).getNombre() + ":" + "\n" + "TOTAL: " + getListaJugadores().get(i).sumarResultadosFinales());
 			}
 		    JOptionPane.showMessageDialog(null, "EL GANADOR ES " + ganador().getNombre() + " CON UN TOTAL DE: " + ganador().sumarResultadosFinales());	
 		}
@@ -358,64 +405,75 @@ public class Juego implements ObjetoJasoneable  {
 		}
     	return ganador;
     }
-  //Metodo para sumar los dados
-    public boolean menuSumar(Jugador j) throws IOException 
+    
+    public void menuSumar(Jugador j) throws IOException 
     {
-    	boolean bool=false;
-    	final String OK="SI";
-    	final String NOT="NO";
-    	if(j.getListaDados().size( )== 0)
+    	if(j.getListaDados().size( ) == 0)
 		{
 			JOptionPane.showMessageDialog(null, "NO HAY DADOS PARA SUMAR");
-			bool=false;
 			menuPrincipal();
 	    	seleccionarMenu(j);
 		}
 		else
 		{
-			String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SUMAR:"+ "\n" + "DADOS: " + j.getListaDados() + "\n" + "salir= 0");
-			if(input.equals(SALIR) || input == null)
+			try 
 			{
-				JOptionPane.showMessageDialog(null,  "SALIENDO AL MENU PRINCIPAL");
-				bool=false;
-				menuPrincipal();
-  	    		seleccionarMenu(j);
-			}
-			else
-			{
-				int input2=Integer.parseInt(input);
-				Jugada sumar= new JugadaDado(input2);
-				if(sumar.encontrada(j.getListaDados()))
+				String input= JOptionPane.showInputDialog("OPCIONES - ELIJA UN VALOR A SUMAR:"+ "\n" + "DADOS: " + j.getListaDados());
+				if(input.matches("[1-6]*"))
 				{
-					String input_dos= JOptionPane.showInputDialog("DESEA ANOTAR LA JUGADA?: " + input + " PUNTOS: " + sumar.puntos() + " ESCRIBA: " +  "SI" + " O " + "NO");
-					if(input_dos.equalsIgnoreCase(OK) && j.anotarResultado(sumar.nombre(), sumar.puntos()))
+					int input2=Integer.parseInt(input);
+					Jugada sumar= new JugadaDado(input2);
+					if(sumar.encontrada(j.getListaDados()))
 					{
-						bool=true;
-						j.setVueltaXJugador(SALIR_WHILE_VUELTA);
-					}
-					else
-					{
-						if(input_dos.equalsIgnoreCase(NOT) || input_dos == null)
+						try 
 						{
-							bool=false;
+							String input_dos= JOptionPane.showInputDialog("DESEA ANOTAR LA JUGADA?: " + input + " y " + sumar.puntos() + " PUNTOS ?"  + " ESCRIBA: " +  " 1-SI" + " O CANCELAR");
+							if(input_dos.matches("[1-1]*"))
+							{
+								if(j.anotarResultado(sumar.nombre(), sumar.puntos()))
+								{
+									JOptionPane.showMessageDialog(null, menus.MENU_JUGADA_ANOTADA);
+									j.setVueltaXJugador(SALIR_WHILE_VUELTA);
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null,"LA JUGADA YA ESTA ANOTADA, INTENTE CON OTRA O SELECCIONE SALIR PARA VOLVER AL MENU PRINCIPAL");
+									menuSumar(j);
+									
+								}	
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
+							    menuSumar(j);
+							}
+						} 
+						catch (Exception e)
+						{
+							JOptionPane.showMessageDialog(null,menus.MENU_SALIENDO);
 							menuPrincipal();
 			  	    		seleccionarMenu(j);
 						}
-						else
-						{
-							JOptionPane.showMessageDialog(null,"LA JUGADA YA ESTA ANOTADA, INTENTE CON OTRA O SELECCIONE SALIR PARA VOLVER AL MENU PRINCIPAL");
-							menuSumar(j);
-						}	
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
+					    menuSumar(j);
 					}	
-				}
+			    }
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Valor inexistente , vuelva a intentar o elija salir para continuar");
+					JOptionPane.showMessageDialog(null, menus.VALOR_INEXISTENTE);
 				    menuSumar(j);
-				}	
-		    }
+				}
+			} 
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(null,menus.MENU_SALIENDO);
+				menuPrincipal();
+				seleccionarMenu(j);
+			}
 	    }
-		return bool;
     }
     
   //Verifica si se concreto una generala en el primer tiro, de lo contrario sigue el juego.
@@ -455,34 +513,39 @@ public class Juego implements ObjetoJasoneable  {
     	    	{
     	    		puntos=5;
     	    	}
-    	    		input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
-    	    	    if(input.equals(ANOTAR))
-    	    	    {
-    	    	    	if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos() + puntos))
-    	    	    	{
-    	    	    		JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    	     			    j.setVueltaXJugador(SALIR_WHILE_VUELTA);
-    	     			    bool= true;
-    	     		    }
-    	    	    	else
-    	    	    	{
-    	    	    		bool= false;
-    	     		    }
-    	     		
-    	     	    }
-    	    	    else
-    	    	    {
-    	    	    	if(input.equals(SALIR_SIN_ANOTAR) || input == null)
-    	    	    	{
-    	    	    		bool= false;
-    	    		    }
-    	    		    else
-    	    		    {
-    	    		    	JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
-    	    			    encontrarJugada(j);
-    	    		    }
-    	    	    }
-    	    	 
+    	    	input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a la jugada" + jugadas.get(i).nombre() + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
+    	    	try
+    	    	{
+    	    		if(input.equals(ANOTAR))
+    	    		{
+		        	   if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos() + puntos))
+		        	   {
+		        		   JOptionPane.showMessageDialog(null, menus.MENU_JUGADA_ANOTADA);
+		        	       j.setVueltaXJugador(SALIR_WHILE_VUELTA);
+		        	       bool= true;
+		        	   }
+		        	   else
+		        	   {
+		        		   bool= false;
+		        	   }
+		        	}
+    	    		else
+		        	{
+		        	   if(input.equals(SALIR_SIN_ANOTAR))
+		        	   {
+		        		   bool= false;
+		        	   }
+		        	   else
+		        	   {
+		        		   JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
+		        	       encontrarJugada(j);
+		        	   }
+		        	}
+				} 
+		    	catch (Exception e) 
+		    	{
+					bool= false;
+			    }
     	    }
     	}
     	return bool;
@@ -497,32 +560,39 @@ public class Juego implements ObjetoJasoneable  {
     	{
     		if(jugadas.get(i).encontrada(j.getSeparados())) 
     		{
-    			String input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
-    			if(input.equals(ANOTAR))
+    			String input= JOptionPane.showInputDialog("Es posible anotar " + jugadas.get(i).puntos() + " puntos a la jugada " + jugadas.get(i).nombre() + " encontrada en los dados separados  " + " Desea anotar? " + "\n" + "1-ANOTAR" + "\n" + "2-SALIR");
+    			try
     			{
-    				if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
-    				{
-    					JOptionPane.showMessageDialog(null, "JUGADA ANOTADA CON EXITO");
-    					j.setVueltaXJugador(SALIR_WHILE_VUELTA);
-    					bool= true;
-    				}
-    				else
-    				{
-    					bool= false;
-    				} 	     		
-    			}
-    			else
+    				if(input.equals(ANOTAR))
+        			{
+        				if(j.anotarResultado(jugadas.get(i).nombre(),jugadas.get(i).puntos()))
+        				{
+        					JOptionPane.showMessageDialog(null, menus.MENU_JUGADA_ANOTADA);
+        					j.setVueltaXJugador(SALIR_WHILE_VUELTA);
+        					bool= true;
+        				}
+        				else
+        				{
+        					bool= false;
+        				} 	     		
+        			}
+        			else
+        			{
+        				if(input.equals(SALIR_SIN_ANOTAR))
+        				{
+        					bool= false;
+        				}
+        				else
+        				{
+        					JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
+        					encontrarJugada(j);
+        				}
+        			}
+				} 
+    			catch (Exception e)
     			{
-    				if(input.equals(SALIR_SIN_ANOTAR) || input == null)
-    				{
-    					bool= false;
-    				}
-    				else
-    				{
-    					JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
-    					encontrarJugada(j);
-    				}
-    			}
+					bool= false;
+				}
     	    }
     	}
      return bool;
@@ -571,10 +641,12 @@ public class Juego implements ObjetoJasoneable  {
 	{
 		JSONObject jjuego = new JSONObject();
 		JSONArray jjugadores = new JSONArray();
+		
 		for (Jugador j : this.getListaJugadores()) 
 		{
 			jjugadores.put(j.pasarAJson());
 		}
+		
 		jjuego.put("jugadores", jjugadores);
 		jjuego.put("vueltaPrincipal", this.getVueltaPrincipal());
 		return jjuego;
@@ -591,6 +663,7 @@ public class Juego implements ObjetoJasoneable  {
 		setInputPrincipal("");
 		setJugadas(jugadas);
 		JSONArray jugadores = JsonObjJuego.getJSONArray("jugadores");
+		this.listaJugadores = new ArrayList<Jugador>();
 		for(int i = 0; i < jugadores.length(); i++)
 		{
 			this.listaJugadores.add(new Jugador(jugadores.getJSONObject(i)));
@@ -600,18 +673,17 @@ public class Juego implements ObjetoJasoneable  {
 	
 	public void menuSave(Jugador j) throws IOException 
 	{
-		String archivo= JOptionPane.showInputDialog("CON QUE NOMBRE QUIERE GUARDAR LA PARTIDA");
-		
-		if(archivo == null)
-		{
-			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
-			menuPrincipal();
-			seleccionarMenu(j);
-		}
-		else
+		String archivo= JOptionPane.showInputDialog(menus.MENU_SAVE);
+		try 
 		{
 			AdministradorPartidas admin = new AdministradorPartidas();
 			admin.salvarPartida(archivo, this.pasarAJson());
+			menuPrincipal();
+			seleccionarMenu(j);
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null,"SALIENDO AL MENU");
 			menuPrincipal();
 			seleccionarMenu(j);
 		}
@@ -621,48 +693,49 @@ public class Juego implements ObjetoJasoneable  {
 	{
 		final String JUGAR = "1";
 		final String LOAD = "2";
-		String archivo = JOptionPane.showInputDialog("GENERALA" + "\n" + "1-JUGAR" + "\n" + "2-LOAD");
-		if(archivo == null)
+		final String SALIR_J = "3";
+		String archivo = JOptionPane.showInputDialog(menus.MENU_JUGAR);
+		try 
 		{
-			archivo = "3";
-		}
-		switch (archivo) {
-		case JUGAR:
-			jugar();
-			break;
-		case LOAD:
-			menuLoad();
-			break;	
-		default:
-			JOptionPane.showMessageDialog(null, "OPCION INCORRECTA, VUELVA A INTENTARLO");
+			switch (archivo) {
+			case JUGAR:
+				jugar();
+				break;
+			case LOAD:
+				load();
+				break;
+			case SALIR_J:
+				System.exit(0);
+				break;	
+			default:
+				JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
+				menuJugar();
+				break;
+			}
+		} 
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(null,menus.MENU_ERROR);
 			menuJugar();
-			break;
 		}
+		
 	}
 	
-	public void menuLoad() throws IOException
+	public void load() throws IOException
 	{
-		String archivo = JOptionPane.showInputDialog("INGRESE EL NOMBRE DE LA PARTIDA GUARDADA");
-		if(archivo == null)
-		{
-			JOptionPane.showMessageDialog(null, "SALIENDO AL MENU");
-			menuJugar();
-		}
-		else
-		{
+		String archivo = JOptionPane.showInputDialog(menus.getMENU_LOAD());
 			try 
 			{
 				AdministradorPartidas admin = new AdministradorPartidas();
 				JSONObject juegoGuardado =  admin.cargarPartida(archivo);
 				Juego generala = new Juego(juegoGuardado);
-				generala.menuJugar(); 
+				Load cargarJuego = new Load();
+				cargarJuego.cargarJuego(generala);
 			}
 			catch (Exception e) 
 			{
-				JOptionPane.showMessageDialog(null, "AH OCURRIDO ALGUN ERROR, VUELVA A INTENTARLO");
-				menuLoad();
-			}
-			
-		}
+				JOptionPane.showMessageDialog(null,menus.MENU_ERROR_LOAD);
+				menuJugar();
+			}	
 	}
 }

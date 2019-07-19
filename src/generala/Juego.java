@@ -55,7 +55,7 @@ public class Juego implements ObjetoJasoneable  {
 				{
 					String nombre= JOptionPane.showInputDialog("Ingrese el nombre " + "JUGADOR " + jugador);
 					jugador++;
-					if (nombre == null ||  Character.isAlphabetic(nombre.charAt(0)))
+					if (nombre == null || !Character.isAlphabetic(nombre.charAt(0)))
 					{
 						JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
 						i=cant;

@@ -55,7 +55,7 @@ public class Juego implements ObjetoJasoneable  {
 				{
 					String nombre= JOptionPane.showInputDialog("Ingrese el nombre " + "JUGADOR " + jugador);
 					jugador++;
-					if(nombre == null)
+					if (nombre == null ||  Character.isAlphabetic(nombre.charAt(0)))
 					{
 						JOptionPane.showMessageDialog(null, menus.MENU_ERROR);
 						i=cant;
@@ -232,7 +232,7 @@ public class Juego implements ObjetoJasoneable  {
 		if(input == null)
 		{
 			JOptionPane.showMessageDialog(null, "Valor inexistente, vuelva a intentarlo");
-	  		menuPrincipal();
+			System.exit (0);
 		}
 		else
 		{
@@ -716,7 +716,7 @@ public class Juego implements ObjetoJasoneable  {
 		catch (Exception e) 
 		{
 			JOptionPane.showMessageDialog(null,menus.MENU_ERROR);
-			menuJugar();
+			System.exit (0);
 		}
 		
 	}
